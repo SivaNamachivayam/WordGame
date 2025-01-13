@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &163032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 446788}
+  - component: {fileID: 11496550}
+  m_Layer: 0
+  m_Name: Alphabet_EN
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &446788
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163032}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11496550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d2e187511bbead458a0ba4c67f23500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LettersList:
+  - letter: A
+    qty: 9
+    score: 1
+  - letter: B
+    qty: 2
+    score: 3
+  - letter: C
+    qty: 2
+    score: 3
+  - letter: D
+    qty: 4
+    score: 2
+  - letter: E
+    qty: 12
+    score: 1
+  - letter: F
+    qty: 2
+    score: 4
+  - letter: G
+    qty: 3
+    score: 2
+  - letter: H
+    qty: 2
+    score: 4
+  - letter: I
+    qty: 9
+    score: 1
+  - letter: J
+    qty: 1
+    score: 8
+  - letter: K
+    qty: 1
+    score: 5
+  - letter: L
+    qty: 4
+    score: 1
+  - letter: M
+    qty: 2
+    score: 3
+  - letter: N
+    qty: 6
+    score: 1
+  - letter: O
+    qty: 8
+    score: 1
+  - letter: P
+    qty: 2
+    score: 3
+  - letter: Q
+    qty: 1
+    score: 10
+  - letter: R
+    qty: 6
+    score: 1
+  - letter: S
+    qty: 4
+    score: 1
+  - letter: T
+    qty: 6
+    score: 1
+  - letter: U
+    qty: 4
+    score: 1
+  - letter: V
+    qty: 2
+    score: 4
+  - letter: W
+    qty: 2
+    score: 4
+  - letter: X
+    qty: 1
+    score: 8
+  - letter: Y
+    qty: 2
+    score: 4
+  - letter: Z
+    qty: 1
+    score: 10
+  - letter: '*'
+    qty: 2
+    score: 0
+  LettersFeed: []
