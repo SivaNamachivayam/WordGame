@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 public class Alphabet : MonoBehaviour
 {
-
     [System.Serializable]
     public class Letters
     {
@@ -18,6 +17,8 @@ public class Alphabet : MonoBehaviour
     public List<Letters> LettersList;
     public List<string> LettersFeed;
 
+    public List<GameObject> TileGameObject;
+ 
     public static Alphabet data;
 
 	void Awake () {
@@ -32,6 +33,7 @@ public class Alphabet : MonoBehaviour
                 LettersFeed.Add(letterItem.letter);
             }
         }
+        //int index = TileGameObject.IndexOf();
     }
 
     public string GetRandomLetter() {

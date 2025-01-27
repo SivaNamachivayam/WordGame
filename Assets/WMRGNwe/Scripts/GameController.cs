@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Linq;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviourPun {
 
     public static GameController data;
     public GameObject mainMenu;
@@ -36,12 +37,14 @@ public class GameController : MonoBehaviour {
     [HideInInspector]
     public List<GameObject> BoardTiles;
 
-    private List<GameObject> UITileSlots;
+    public List<GameObject> UITileSlots;
     private List<GameObject> UITiles;
     private List<GameObject> boardTilesMatters;
-    private GameObject targetBoardSlot;
+    public GameObject targetBoardSlot;
+    public GameObject targetBoardSlot1;
+
     private GameObject tempJokerTile;
-    private List<string> newWords;
+    public List<string> newWords;
     private List<string> addedWords;
     private List<int> newLetterIds;
     private string preApplyInfo;
@@ -139,6 +142,7 @@ public class GameController : MonoBehaviour {
             foreach (GameObject tile in players[i].UITiles)
             {
                 tile.SetActive(true);
+                Debug.Log("Syed -RandomLetter1111");
                 tile.GetComponent<UITile>().GetNewLetter();
             }
         }
@@ -187,6 +191,8 @@ public class GameController : MonoBehaviour {
             if (hit.collider != null)
             {
                 targetBoardSlot = hit.collider.gameObject;
+                targetBoardSlot1 = hit.collider.gameObject;
+
                 if (targetBoardSlot.GetComponent<BoardSlot>().free)
                     canBePlant = true;
                 else
@@ -220,14 +226,57 @@ public class GameController : MonoBehaviour {
 
     public void PlantTile(GameObject tile)
     {
+        Debug.Log("Syed -CheckTileSet");
         tile.transform.parent = targetBoardSlot.transform;
-        tile.transform.localPosition = new Vector3(0,0,-0.1f);
+        tile.transform.localPosition = new Vector3(0, 0, -0.1f);
         tile.SetActive(true);
         tile.GetComponent<BoardTile>().currentslot = targetBoardSlot.GetComponent<BoardSlot>();
         targetBoardSlot.GetComponent<BoardSlot>().free = false;
         Camera.main.BroadcastMessage("ZoomIn", targetBoardSlot.transform.position);
         PreApply();
         SoundController.data.playTap();
+
+        // ++++++++++++++++++++++++++++++++++++++++        MULTI      ++++++++++++++++++++++++++++++++++++++++++++++
+
+        TileIntValue = Alphabet.data.TileGameObject.IndexOf(targetBoardSlot);
+        Debug.Log("TileIntValue" + TileIntValue);
+        string textVale = tile.transform.GetComponentInChildren<TextMesh>().text;
+        Debug.Log("textVale" + textVale);
+        string textValeSub = tile.transform.GetChild(1).gameObject.GetComponentInChildren<TextMesh>().text;
+        Debug.Log("textValeSub" + textValeSub);
+        if (PV.IsMine)
+        {
+            PV.RPC("ClientFN", RpcTarget.Others, TileIntValue, textVale, textValeSub);
+        }
+        SelectTileGameObject.Add(Alphabet.data.TileGameObject[TileIntValue]);
+        //targetBoardSlot = null;
+
+        // ++++++++++++++++++++++++++++++++++++++++        MULTI      ++++++++++++++++++++++++++++++++++++++++++++++
+
+    }
+
+
+    public PhotonView PV;
+    public GameObject boardTilePrefab;
+    public int TileIntValue;
+    public List<GameObject> SelectTileGameObject;
+
+
+    [PunRPC]
+    public void ClientFN(int TileIntValue, string textVale, string textValeSub)
+    {
+        //Destroy(Alphabet.data.TileGameObject[TileIntValue].gameObject);
+
+        Debug.Log("TileIntValue" + TileIntValue);
+        Debug.Log("textVale" + textVale);
+        Debug.Log("textValeSub" + textValeSub);
+
+        GameObject boardTilePrefabCL = (GameObject)Instantiate(boardTilePrefab, Alphabet.data.TileGameObject[TileIntValue].transform.position, Quaternion.identity);
+        boardTilePrefabCL.transform.parent = Alphabet.data.TileGameObject[TileIntValue].gameObject.transform;
+        boardTilePrefabCL.transform.GetComponentInChildren<TextMesh>().text = textVale;
+        boardTilePrefabCL.transform.GetChild(1).gameObject.GetComponentInChildren<TextMesh>().text = textValeSub;
+        Alphabet.data.TileGameObject[TileIntValue].GetComponent<BoardSlot>().free = false;
+        SelectTileGameObject.Add(Alphabet.data.TileGameObject[TileIntValue]);
     }
 
     public GameObject GetFreeUISlot()
@@ -242,6 +291,7 @@ public class GameController : MonoBehaviour {
 
     public void CancelLetters()
     {
+        Debug.Log("Syed-CancelLetters");
         foreach (GameObject tile in UITiles)
         {
             if (!tile.activeInHierarchy && !tile.GetComponent<UITile>().finished)
@@ -255,8 +305,61 @@ public class GameController : MonoBehaviour {
             if(bs.GetComponent<BoardSlot>().completed != true)
                 bs.GetComponent<BoardSlot>().free = true;
         }
-
+        foreach (GameObject bs in Alphabet.data.TileGameObject)
+        {
+            if (bs.GetComponent<BoardSlot>().completed != true)
+                bs.GetComponent<BoardSlot>().free = true;
+        }
         GameController.data.PreApply();
+
+        // ++++++++++++++++++++++++++++++++++++++++        MULTI      ++++++++++++++++++++++++++++++++++++++++++++++
+        if (PV.IsMine)
+        {
+            photonView.RPC("CancelTile", RpcTarget.Others);
+        }
+        SelectTileGameObject.Clear();
+
+        // ++++++++++++++++++++++++++++++++++++++++        MULTI      ++++++++++++++++++++++++++++++++++++++++++++++
+
+    }
+
+    [PunRPC]
+    public void CancelTile()
+    {
+        foreach (var item in SelectTileGameObject)
+        {
+            if (item.transform.Find("boardTilePrefab(Clone)"))
+            {
+                item.transform.GetComponent<BoardSlot>().free = true;
+                Destroy(item.transform.Find("boardTilePrefab(Clone)").gameObject);
+            }
+        }
+        SelectTileGameObject.Clear();
+    }
+
+
+
+    public void ResetTileMaster(int Value)
+    {
+        if (PV.IsMine)
+        {
+            Debug.Log("TileValue" + Value);
+            PV.RPC("ResetTileClient", RpcTarget.Others, Value);
+        }
+    }
+
+
+    public int TileValue;
+
+    [PunRPC]
+    public void ResetTileClient(int TileValue)
+    {
+        Debug.Log("Syed-Check -ResetTileClient");
+        Debug.Log("TileValue" + TileValue);
+
+        Debug.Log("Destroy- GameObject" + Alphabet.data.TileGameObject[TileValue]);
+        Alphabet.data.TileGameObject[TileValue].transform.GetComponent<BoardSlot>().free = true;
+        Destroy(Alphabet.data.TileGameObject[TileValue].transform.Find("boardTilePrefab(Clone)").gameObject);
     }
 
     public void ShuffleUITiles()
@@ -292,6 +395,7 @@ public class GameController : MonoBehaviour {
 
     public void ApplyJokerTile(string letter)
     {
+        Debug.Log("Syed -CheckTileSet--111");
         tempJokerTile.GetComponent<BoardTile>().letter = letter;
         tempJokerTile.GetComponentInChildren<TextMesh>().text = letter;
         PlantTile(tempJokerTile);
@@ -913,6 +1017,7 @@ public class GameController : MonoBehaviour {
         switch (confirmationID)
         {
             case "ApplyTurn":
+                Debug.Log("Syed -ShowConfirmationDialog");
                 confirmationDialogTxt.text = preApplyInfo;
                 break;
             case "SkipTurn":
@@ -931,6 +1036,8 @@ public class GameController : MonoBehaviour {
         switch (confirmationID)
         {
             case "ApplyTurn":
+                Debug.Log("Syed -ConfirmDialog");
+                //PV.RPC("OwnerShipChange", RpcTarget.Others);
                 ApplyTurn();
                 break;
             case "SkipTurn":
@@ -942,6 +1049,12 @@ public class GameController : MonoBehaviour {
                 break;
         }
         confirmationDialog.SetActive(false);
+    }
+
+    [PunRPC]
+    public void OwnerShipChange()
+    {
+        PV.TransferOwnership(PhotonNetwork.LocalPlayer);
     }
 
     public void switchMenu(bool state)
@@ -973,6 +1086,7 @@ public class GameController : MonoBehaviour {
 
     public void ResetData()
     {
+        Debug.Log("Syed -ResetData");
         foreach (GameObject go in BoardTiles)
             Destroy(go);
         BoardTiles = new List<GameObject>();

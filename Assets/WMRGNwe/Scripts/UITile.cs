@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+//using Photon.Pun;
 
 public class UITile : MonoBehaviour
 {
@@ -104,6 +105,7 @@ public class UITile : MonoBehaviour
         }
         else if (GameController.data.canBePlant)
         {
+            Debug.Log("Syed -CheckTileSet--222");
             GameController.data.PlantTile(boardTile);
             gameObject.SetActive(false);
         }
@@ -121,12 +123,16 @@ public class UITile : MonoBehaviour
 
     public void ReCreateTile()
     {
+        Debug.Log("Syed - ReCreateTile");
         GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
         GetNewLetter();
         GoToFreeSlot();
     }
 
     void CreateNewBoardTile(string letter, int score) {
+
+        Debug.Log("Syed-CreateNewBoardTile");
+
         boardTile = (GameObject)Instantiate(boardTilePrefab, new Vector3(99, 0, 0), Quaternion.identity);
         boardTile.tag = "BoardTile";
         GameController.data.BoardTiles.Add(boardTile);
@@ -138,10 +144,16 @@ public class UITile : MonoBehaviour
         txts[1].text = score.ToString();
 
         boardTile.SetActive(false);
+
     }
+
+   
+
 
     public void GoToSlot(GameObject slot)
     {
+        Debug.Log("Syed - GoToSlot");
+
         MoveToPos(slot.GetComponent<RectTransform>().anchoredPosition);
         
         if (slot.GetComponent<UISlot>().UITile != null)
@@ -156,6 +168,8 @@ public class UITile : MonoBehaviour
 
     public void GoToFreeSlot()
     {
+        Debug.Log("Syed - GoToFreeSlot");
+
         GameObject freeUISlot = GameController.data.GetFreeUISlot();
         if (GameController.data.GetFreeUISlot() != null)
         {
@@ -167,6 +181,9 @@ public class UITile : MonoBehaviour
     }
 
     public void CancelTile() {
+
+        Debug.Log("Syed - CancelTile");
+
         Vector3 tempPos = boardTile.transform.position;
         tempPos.z = uiZaxis;
         transform.position = tempPos;
@@ -183,6 +200,8 @@ public class UITile : MonoBehaviour
 
     void MoveToPos(Vector3 toPos)
     {
+        Debug.Log("Syed - MoveToPos");
+
         gameObject.transform.parent.SetAsLastSibling();
         transformer.MoveUI(toPos, 0.25f);
     }
