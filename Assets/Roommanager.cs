@@ -52,7 +52,7 @@ public class Roommanager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinRandomRoom();
         ConnectBtn.interactable = false;
-        SearchingText.gameObject.SetActive(true);
+        SearchingText.text="Searching";
         Debug.Log("__ROOM JOIN");
 
     }

@@ -35052,6 +35052,7 @@ GameObject:
   - component: {fileID: 1009414138117148519}
   - component: {fileID: 5452589886224367389}
   - component: {fileID: 6129806786153897721}
+  - component: {fileID: 6919502938712190446}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -35157,7 +35158,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents: []
   sceneViewId: 0
@@ -35484,6 +35485,19 @@ MonoBehaviour:
   - {fileID: 6724980586204663771}
   - {fileID: 9087746744197032020}
   - {fileID: 7980111426647324015}
+--- !u!114 &6919502938712190446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8197477993151530309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132c43aaa87ed483680f10292162701f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PV: {fileID: 5452589886224367389}
 --- !u!1 &8213319946664920822
 GameObject:
   m_ObjectHideFlags: 0

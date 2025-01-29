@@ -9,6 +9,9 @@ public class LogoutManager : MonoBehaviour
     public Button logoutBtn;
     public Button playBtn;
     public GameObject panel;
+    public GameObject Guestpanel;
+    public GameObject MainmenuPanel;
+
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +51,10 @@ public class LogoutManager : MonoBehaviour
 
     public void OnClickPlayBtn()
     {
-        SceneManager.LoadScene("game");
+        panel.SetActive(false);
+        Guestpanel.SetActive(false);
+        //SceneManager.LoadScene("game");
+        MainmenuPanel.SetActive(true);
     }
 }
 

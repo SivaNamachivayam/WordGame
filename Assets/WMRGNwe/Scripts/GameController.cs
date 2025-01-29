@@ -79,8 +79,17 @@ public class GameController : MonoBehaviourPun {
         data = this;
         soundToggle.isOn = PlayerPrefs.GetInt("sound", 1) == 1 ? true : false;
         //StartGame();
+        if (Multi)
+        {
+            SelectList = Alphabet.data.TileGameObject;
+        }
+        else
+        {
+            SelectList = BoardSlots;
+        }
     }
-
+    public bool Multi = true;
+    public List<GameObject> SelectList;
     public void StartGame()
     {
         ResetData();
@@ -244,9 +253,13 @@ public class GameController : MonoBehaviourPun {
         Debug.Log("textVale" + textVale);
         string textValeSub = tile.transform.GetChild(1).gameObject.GetComponentInChildren<TextMesh>().text;
         Debug.Log("textValeSub" + textValeSub);
+        string Letter =tile.transform.GetComponentInChildren<BoardTile>().letter;
+        Debug.Log("Letter" + Letter);
+        int Score = tile.transform.GetComponentInChildren<BoardTile>().score;
+        Debug.Log("Score" + Score);
         if (PV.IsMine)
         {
-            PV.RPC("ClientFN", RpcTarget.Others, TileIntValue, textVale, textValeSub);
+            PV.RPC("ClientFN", RpcTarget.Others, TileIntValue, textVale, textValeSub, Letter, Score);
         }
         SelectTileGameObject.Add(Alphabet.data.TileGameObject[TileIntValue]);
         //targetBoardSlot = null;
@@ -263,7 +276,7 @@ public class GameController : MonoBehaviourPun {
 
 
     [PunRPC]
-    public void ClientFN(int TileIntValue, string textVale, string textValeSub)
+    public void ClientFN(int TileIntValue, string textVale, string textValeSub,string Letter,int Score)
     {
         //Destroy(Alphabet.data.TileGameObject[TileIntValue].gameObject);
 
@@ -276,6 +289,8 @@ public class GameController : MonoBehaviourPun {
         boardTilePrefabCL.transform.GetComponentInChildren<TextMesh>().text = textVale;
         boardTilePrefabCL.transform.GetChild(1).gameObject.GetComponentInChildren<TextMesh>().text = textValeSub;
         Alphabet.data.TileGameObject[TileIntValue].GetComponent<BoardSlot>().free = false;
+        boardTilePrefabCL.GetComponent<BoardTile>().letter = Letter;
+        boardTilePrefabCL.GetComponent<BoardTile>().score = Score;
         SelectTileGameObject.Add(Alphabet.data.TileGameObject[TileIntValue]);
     }
 
@@ -301,7 +316,7 @@ public class GameController : MonoBehaviourPun {
             }
         }
 
-        foreach (GameObject bs in BoardSlots) {
+        foreach (GameObject bs in SelectList) {
             if(bs.GetComponent<BoardSlot>().completed != true)
                 bs.GetComponent<BoardSlot>().free = true;
         }
@@ -315,7 +330,7 @@ public class GameController : MonoBehaviourPun {
         // ++++++++++++++++++++++++++++++++++++++++        MULTI      ++++++++++++++++++++++++++++++++++++++++++++++
         if (PV.IsMine)
         {
-            photonView.RPC("CancelTile", RpcTarget.Others);
+            PV.RPC("CancelTile", RpcTarget.Others);
         }
         SelectTileGameObject.Clear();
 
@@ -413,9 +428,9 @@ public class GameController : MonoBehaviourPun {
         boardTilesMatters = new List<GameObject>();
         bool firstWord = true;
         //Checking if tiles are not alone
-        for (int i = 0; i < BoardSlots.Count; i++)
+        for (int i = 0; i < SelectList.Count; i++)
         {
-            if (!BoardSlots[i].GetComponent<BoardSlot>().free && !BoardSlots[i].GetComponent<BoardSlot>().completed)
+            if (!SelectList[i].GetComponent<BoardSlot>().free && !SelectList[i].GetComponent<BoardSlot>().completed)
             {
                 if (!CheckIfNewTileConnected(i))
                 {
@@ -425,7 +440,7 @@ public class GameController : MonoBehaviourPun {
                 newLetterIds.Add(i);
             }
 
-            if (BoardSlots[i].GetComponent<BoardSlot>().completed && firstWord)
+            if (SelectList[i].GetComponent<BoardSlot>().completed && firstWord)
                 firstWord = false;
         }
 
@@ -490,7 +505,7 @@ public class GameController : MonoBehaviourPun {
         {
             for (int i = firstNewId; i < newLetterIds[newLetterIds.Count - 1]; i++)
             {
-                if (BoardSlots[i].GetComponent<BoardSlot>().free)
+                if (SelectList[i].GetComponent<BoardSlot>().free)
                 {
                     errorCode = 4;
                     return;
@@ -548,12 +563,12 @@ public class GameController : MonoBehaviourPun {
             }
                 
         }
-        string newWordsList = "";
+        newWordsList = "";
         foreach(string word in newWords)
         {
             newWordsList += word + ", ";
         }
-        newWordsList = newWordsList.Remove(newWordsList.Length - 2);
+        //newWordsList = newWordsList.Remove(newWordsList.Length - 2);
         preApplyInfo = "APPLY '" + newWordsList + "' for " + currentScore + " scores?";
 
         newScoreBlock.SetActive(true);
@@ -562,7 +577,7 @@ public class GameController : MonoBehaviourPun {
         newScoreBlock.GetComponent<Transformer>().ScaleImpulse(new Vector3(0.6f, 0.6f, 1), 0.15f, 1);
         //Debug.Log(currentScore);
     }
-
+    public string newWordsList;
     public void ApplyTurn() {
         string info = "";
 
@@ -605,8 +620,8 @@ public class GameController : MonoBehaviourPun {
         //APPLYING WORD
         foreach (int id in newLetterIds)
         {
-            BoardSlots[id].GetComponent<BoardSlot>().completed = true;
-            BoardSlots[id].GetComponentInChildren<BoardTile>().completed = true;
+            SelectList[id].GetComponent<BoardSlot>().completed = true;
+            SelectList[id].GetComponentInChildren<BoardTile>().completed = true;
         }
 
         foreach(GameObject bTile in boardTilesMatters)
@@ -638,6 +653,15 @@ public class GameController : MonoBehaviourPun {
         UpdateTxts();
 
         Invoke("SwitchPlayer", 0.35f);
+
+        //  ++++++++++++++++++++++++++++++++++++       MULTI    +++++++++++++++++++++++++++++++
+
+        Debug.Log("Syed -ConfirmDialog");
+        SelectTileGameObject.Clear();
+        PV.RPC("OwnerShipChange", RpcTarget.Others);
+
+        //  ++++++++++++++++++++++++++++++++++++       MULTI    +++++++++++++++++++++++++++++++
+
         SoundController.data.playApply();
     }
 
@@ -692,28 +716,28 @@ public class GameController : MonoBehaviourPun {
                 int topTileID = tileId - 15;
                 if (topTileID + 1 > 0)
                 {
-                    return BoardSlots[topTileID];
+                    return SelectList[topTileID];
                 }
                 break;
             case "right":
                 int rightTileId = tileId + 1;
                 if ((rightTileId) % 15 != 0)
                 {
-                    return BoardSlots[rightTileId];
+                    return SelectList[rightTileId];
                 }
                 break;
             case "bottom":
                 int bottomTileId = tileId + 15;
                 if (bottomTileId + 1 < 226)
                 {
-                    return BoardSlots[bottomTileId];
+                    return SelectList[bottomTileId];
                 }
                 break;
             case "left":
                 int leftTileId = tileId - 1;
                 if ((leftTileId+1) % 15 != 0)
                 {
-                    return BoardSlots[leftTileId];
+                    return SelectList[leftTileId];
                 }
                 break;
         }
@@ -725,13 +749,13 @@ public class GameController : MonoBehaviourPun {
         string word = "";
         for(int i = firstId; i < 225; i += 15)
         {
-            if (BoardSlots[i] && !BoardSlots[i].GetComponent<BoardSlot>().free)
+            if (SelectList[i] && !SelectList[i].GetComponent<BoardSlot>().free)
             {
-                word += BoardSlots[i].GetComponentInChildren<BoardTile>().letter;
-                if (!boardTilesMatters.Contains(BoardSlots[i].GetComponentInChildren<BoardTile>().gameObject))
-                    boardTilesMatters.Add(BoardSlots[i].GetComponentInChildren<BoardTile>().gameObject);
+                word += SelectList[i].GetComponentInChildren<BoardTile>().letter;
+                if (!boardTilesMatters.Contains(SelectList[i].GetComponentInChildren<BoardTile>().gameObject))
+                    boardTilesMatters.Add(SelectList[i].GetComponentInChildren<BoardTile>().gameObject);
                 else
-                    boardTilesMatters.Remove(BoardSlots[i].GetComponentInChildren<BoardTile>().gameObject); boardTilesMatters.Add(BoardSlots[i].GetComponentInChildren<BoardTile>().gameObject);
+                    boardTilesMatters.Remove(SelectList[i].GetComponentInChildren<BoardTile>().gameObject); boardTilesMatters.Add(SelectList[i].GetComponentInChildren<BoardTile>().gameObject);
                 if (i + 15 > 224)
                     return word;
             }
@@ -748,13 +772,13 @@ public class GameController : MonoBehaviourPun {
         string word = "";
         for (int i = firstId; i < 225; i++)
         {
-            if (BoardSlots[i] && !BoardSlots[i].GetComponent<BoardSlot>().free)
+            if (SelectList[i] && !SelectList[i].GetComponent<BoardSlot>().free)
             {
-                word += BoardSlots[i].GetComponentInChildren<BoardTile>().letter;
-                if (!boardTilesMatters.Contains(BoardSlots[i].GetComponentInChildren<BoardTile>().gameObject))
-                    boardTilesMatters.Add(BoardSlots[i].GetComponentInChildren<BoardTile>().gameObject);
+                word += SelectList[i].GetComponentInChildren<BoardTile>().letter;
+                if (!boardTilesMatters.Contains(SelectList[i].GetComponentInChildren<BoardTile>().gameObject))
+                    boardTilesMatters.Add(SelectList[i].GetComponentInChildren<BoardTile>().gameObject);
                 else
-                    boardTilesMatters.Remove(BoardSlots[i].GetComponentInChildren<BoardTile>().gameObject); boardTilesMatters.Add(BoardSlots[i].GetComponentInChildren<BoardTile>().gameObject);
+                    boardTilesMatters.Remove(SelectList[i].GetComponentInChildren<BoardTile>().gameObject); boardTilesMatters.Add(SelectList[i].GetComponentInChildren<BoardTile>().gameObject);
                 if ((i + 1) % 15 == 0)
                     return word;
             }
@@ -772,20 +796,20 @@ public class GameController : MonoBehaviourPun {
         int wordFactor = 1;
         for (int i = firstId; i < 225; i += 15)
         {
-            BoardSlot boardSlot = BoardSlots[i].GetComponent<BoardSlot>();
+            BoardSlot boardSlot = SelectList[i].GetComponent<BoardSlot>();
 
-            if (BoardSlots[i] && !boardSlot.free)
+            if (SelectList[i] && !boardSlot.free)
             {
                 if (!boardSlot.completed)
                 {
                     //score += Alphabet.data.GetLetterScore(BoardSlots[i].GetComponentInChildren<BoardTile>().letter) * (int)boardSlot.letterFactor;
-                    score += BoardSlots[i].GetComponentInChildren<BoardTile>().score * (int)boardSlot.letterFactor;
+                    score += SelectList[i].GetComponentInChildren<BoardTile>().score * (int)boardSlot.letterFactor;
                     if ((int)boardSlot.wordFactor > 1)
                         wordFactor *= (int)boardSlot.wordFactor;
                 } else
                 {
                     //score += Alphabet.data.GetLetterScore(BoardSlots[i].GetComponentInChildren<BoardTile>().letter);
-                    score += BoardSlots[i].GetComponentInChildren<BoardTile>().score;
+                    score += SelectList[i].GetComponentInChildren<BoardTile>().score;
                 }
 
                 if (i + 15 > 224)
@@ -805,21 +829,21 @@ public class GameController : MonoBehaviourPun {
         int wordFactor = 1;
         for (int i = firstId; i < 225; i++)
         {
-            BoardSlot boardSlot = BoardSlots[i].GetComponent<BoardSlot>();
+            BoardSlot boardSlot = SelectList[i].GetComponent<BoardSlot>();
 
-            if (!BoardSlots[i].GetComponent<BoardSlot>().free)
+            if (!SelectList[i].GetComponent<BoardSlot>().free)
             {
 
                 if (!boardSlot.completed)
                 {
                     //score += Alphabet.data.GetLetterScore(BoardSlots[i].GetComponentInChildren<BoardTile>().letter) * (int)boardSlot.letterFactor;
-                    score += BoardSlots[i].GetComponentInChildren<BoardTile>().score * (int)boardSlot.letterFactor;
-                if ((int)BoardSlots[i].GetComponent<BoardSlot>().wordFactor > 1)
-                    wordFactor *= (int)BoardSlots[i].GetComponent<BoardSlot>().wordFactor;
+                    score += SelectList[i].GetComponentInChildren<BoardTile>().score * (int)boardSlot.letterFactor;
+                if ((int)SelectList[i].GetComponent<BoardSlot>().wordFactor > 1)
+                    wordFactor *= (int)SelectList[i].GetComponent<BoardSlot>().wordFactor;
                 }
                 else
                 {
-                    score += BoardSlots[i].GetComponentInChildren<BoardTile>().score;
+                    score += SelectList[i].GetComponentInChildren<BoardTile>().score;
                 }
                 if ((i + 1) % 15 == 0)
                     break;
@@ -1036,8 +1060,6 @@ public class GameController : MonoBehaviourPun {
         switch (confirmationID)
         {
             case "ApplyTurn":
-                Debug.Log("Syed -ConfirmDialog");
-                //PV.RPC("OwnerShipChange", RpcTarget.Others);
                 ApplyTurn();
                 break;
             case "SkipTurn":
@@ -1054,9 +1076,21 @@ public class GameController : MonoBehaviourPun {
     [PunRPC]
     public void OwnerShipChange()
     {
+       
+        foreach (var item in SelectTileGameObject)
+        {
+            item.GetComponent<BoardSlot>().completed = true;
+        }
+        foreach (var item in SelectTileGameObject)
+        {
+           item.transform.Find("boardTilePrefab(Clone)").gameObject.GetComponent<BoardTile>().completed=true;
+        }
+        SelectTileGameObject.Clear();
+        Debug.Log("Upgrade to Owner");
         PV.TransferOwnership(PhotonNetwork.LocalPlayer);
+        boardController.Data.PV.TransferOwnership(PhotonNetwork.LocalPlayer);
+        SelectList = Alphabet.data.TileGameObject;
     }
-
     public void switchMenu(bool state)
     {
         if(state)
@@ -1091,7 +1125,7 @@ public class GameController : MonoBehaviourPun {
             Destroy(go);
         BoardTiles = new List<GameObject>();
 
-        foreach (GameObject go in BoardSlots)
+        foreach (GameObject go in SelectList)
         {
             go.GetComponentInChildren<BoardSlot>().free = true;
             go.GetComponentInChildren<BoardSlot>().completed = false;
