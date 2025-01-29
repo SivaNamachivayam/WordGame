@@ -104,4 +104,8 @@ public class Roommanager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel(1);
         //SceneManager.LoadScene(0, LoadSceneMode.Additive);
     }
+    public void LoadSceneByIndex(int Sceneint)
+    {
+        SceneManager.LoadScene(Sceneint); // Replace '1' with the build index of the scene you want to load.
+    }
 }

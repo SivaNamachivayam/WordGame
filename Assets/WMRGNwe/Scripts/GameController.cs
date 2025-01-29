@@ -42,7 +42,7 @@ public class GameController : MonoBehaviourPun {
     private List<GameObject> boardTilesMatters;
     public GameObject targetBoardSlot;
     public GameObject targetBoardSlot1;
-
+    public GameObject MainBoard; 
     private GameObject tempJokerTile;
     public List<string> newWords;
     private List<string> addedWords;
@@ -79,16 +79,17 @@ public class GameController : MonoBehaviourPun {
         data = this;
         soundToggle.isOn = PlayerPrefs.GetInt("sound", 1) == 1 ? true : false;
         //StartGame();
-        if (Multi)
+        if (OnlyData.Data.gametype==GameType.Multi)
         {
             SelectList = Alphabet.data.TileGameObject;
+            MainBoard.SetActive(false);
         }
-        else
+        else if(OnlyData.Data.gametype == GameType.pass)
         {
             SelectList = BoardSlots;
+            MainBoard.SetActive(true);
         }
     }
-    public bool Multi = true;
     public List<GameObject> SelectList;
     public void StartGame()
     {
@@ -1010,17 +1011,61 @@ public class GameController : MonoBehaviourPun {
 
         currentPlayerTxt.text = "Player " + currentPlayer;
         PreApply();
-        //Showing Title
-        newPlayerTitle.GetComponentInChildren<Text>().text = "PLAYER'S " + currentPlayer + " MOVE";
-        newPlayerTitle.GetComponent<Transformer>().MoveUIImpulse(Vector2.zero, 1, 1);
+        if (OnlyData.Data.gametype == GameType.Multi)
+        {
+            if (PV.IsMine)
+            {
+                newPlayerTitle.GetComponentInChildren<Text>().text = "<<<<< Your Turn>>>>>";
+                newPlayerTitle.GetComponent<Transformer>().MoveUIImpulse(Vector2.zero,5, 1);
+            }
+            else
+            {
+                newPlayerTitle.GetComponentInChildren<Text>().text = "<<<<< Enemy Turn>>>>>";
+                newPlayerTitle.GetComponent<Transformer>().MoveUIImpulse(Vector2.zero, 5, 1);
+            }
+        }
+        else if (OnlyData.Data.gametype == GameType.pass)
+        {
+            //Showing Title
+            newPlayerTitle.GetComponentInChildren<Text>().text = "PLAYER'S " + currentPlayer + " MOVE";
+            newPlayerTitle.GetComponent<Transformer>().MoveUIImpulse(Vector2.zero, 2, 1);
+        }
 
         UpdateTxts();
     }
-
+    public void SwitchPlayerMulti()
+    {
+        if (OnlyData.Data.gametype == GameType.Multi)
+        {
+            if (PV.IsMine)
+            {
+                newPlayerTitle.GetComponentInChildren<Text>().text = "<<<<< Your Turn>>>>>";
+                newPlayerTitle.GetComponent<Transformer>().MoveUIImpulse(Vector2.zero, 1, 1);
+            }
+            else
+            {
+                newPlayerTitle.GetComponentInChildren<Text>().text = "<<<<< Enemy Turn>>>>>";
+                newPlayerTitle.GetComponent<Transformer>().MoveUIImpulse(Vector2.zero, 1, 1);
+            }
+        }
+        else if (OnlyData.Data.gametype == GameType.pass)
+        {
+            //Showing Title
+            newPlayerTitle.GetComponentInChildren<Text>().text = "PLAYER'S " + currentPlayer + " MOVE";
+            newPlayerTitle.GetComponent<Transformer>().MoveUIImpulse(Vector2.zero, 1, 1);
+        }
+    }
     public void SkipTurn()
     {
         CancelLetters();
         Invoke("SwitchPlayer", 0.35f);
+        if (PV.IsMine)
+        {
+            Debug.Log("Syed -ConfirmDialog");
+            SelectTileGameObject.Clear();
+            PV.RPC("OwnerShipChange", RpcTarget.Others);
+        }
+        StartCoroutine(WaitPVFNMater());
     }
 
     public void GiveUp()
@@ -1063,6 +1108,7 @@ public class GameController : MonoBehaviourPun {
                 ApplyTurn();
                 break;
             case "SkipTurn":
+                CancelLetters();
                 skipCount++;
                 SkipTurn();
                 break;
@@ -1076,7 +1122,6 @@ public class GameController : MonoBehaviourPun {
     [PunRPC]
     public void OwnerShipChange()
     {
-       
         foreach (var item in SelectTileGameObject)
         {
             item.GetComponent<BoardSlot>().completed = true;
@@ -1090,6 +1135,18 @@ public class GameController : MonoBehaviourPun {
         PV.TransferOwnership(PhotonNetwork.LocalPlayer);
         boardController.Data.PV.TransferOwnership(PhotonNetwork.LocalPlayer);
         SelectList = Alphabet.data.TileGameObject;
+        StartCoroutine(WaitPVFNClient());
+    }
+
+    public IEnumerator WaitPVFNClient()
+    {
+        yield return new WaitUntil(() => PV.IsMine);
+        SwitchPlayer();
+    }
+    public IEnumerator WaitPVFNMater()
+    {
+        yield return new WaitUntil(() => PV.IsMine == false);
+        SwitchPlayer();
     }
     public void switchMenu(bool state)
     {
