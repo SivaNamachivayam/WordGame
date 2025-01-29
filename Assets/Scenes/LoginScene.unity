@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571337, b: 0.3069219, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1026,6 +1026,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1489759321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1489759323}
+  - component: {fileID: 1489759322}
+  m_Layer: 0
+  m_Name: TileSkinManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1489759322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489759321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b863269264933a4dbd1eac3cd18f5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  letterTileSkins:
+  - skinImage: {fileID: 21300000, guid: 250df7cd44c40754a82e656413fe8e44, type: 3}
+  - skinImage: {fileID: 21300000, guid: 44c3454831eaee740813daa4bd26069e, type: 3}
+  - skinImage: {fileID: 21300000, guid: a4c157683f2ca1a40903b00c72fa2168, type: 3}
+  - skinImage: {fileID: 21300000, guid: 739486d7ebda9c14b9d5f3c759a7d5e2, type: 3}
+  - skinImage: {fileID: 21300000, guid: 0cd8ac0f42c11b04db1b380e7250dbde, type: 3}
+  - skinImage: {fileID: 21300000, guid: cfddcd40db36ebf44aea9940bb877d81, type: 3}
+  - skinImage: {fileID: 21300000, guid: 2af41f2a07b1c8c4caf5424282f3d188, type: 3}
+  - skinImage: {fileID: 21300000, guid: cbdcc0f34501cd240a65e9ecdd187652, type: 3}
+  - skinImage: {fileID: 21300000, guid: 2483bba9903c4a6478dc6323f040fbf7, type: 3}
+  - skinImage: {fileID: 21300000, guid: 990beb3033ef20149a94a89022fca948, type: 3}
+  - skinImage: {fileID: 21300000, guid: 4c4b0385b8248c44b9220dc96def7890, type: 3}
+  - skinImage: {fileID: 21300000, guid: be13efb5a2677d94a9eeae1f37b77a88, type: 3}
+  - skinImage: {fileID: 21300000, guid: d28782cc117d37640a05fd76a4accee5, type: 3}
+  - skinImage: {fileID: 21300000, guid: 574013abb78960e4190815540eb87c1c, type: 3}
+  - skinImage: {fileID: 21300000, guid: d52a3874ffde0b149a5dd9038ff79673, type: 3}
+  - skinImage: {fileID: 21300000, guid: b1969a6bfcc36cf47b0f9e9da196c3ae, type: 3}
+  - skinImage: {fileID: 21300000, guid: 992cd0ecf2251924ba85918e005bd824, type: 3}
+  - skinImage: {fileID: 21300000, guid: 5b1384a8cb88bc44f99839b3d941f8aa, type: 3}
+  - skinImage: {fileID: 21300000, guid: 2d5fb3a2188240a43ba7243aadbe2e18, type: 3}
+  - skinImage: {fileID: 21300000, guid: a9879b23d7aabdc4f81194ebc906757f, type: 3}
+  - skinImage: {fileID: 21300000, guid: 853da043092ef354b8f5cd9ab4e2f0c5, type: 3}
+  - skinImage: {fileID: 21300000, guid: f854ac0c832962e4dbe44dcdfed975ba, type: 3}
+  - skinImage: {fileID: 21300000, guid: ccb3498a0742bab4e838f3264b9ec9fa, type: 3}
+  skinItemPrefab: {fileID: 0}
+  skinItemParent: {fileID: 0}
+  letterTilePreview: {fileID: 0}
+--- !u!4 &1489759323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489759321}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 360, y: 640, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1499040609
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,3 +1702,4 @@ SceneRoots:
   - {fileID: 1378244720}
   - {fileID: 435611211}
   - {fileID: 1532717219}
+  - {fileID: 1489759323}
