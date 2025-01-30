@@ -42,7 +42,7 @@ public class GameController : MonoBehaviourPun {
     private List<GameObject> boardTilesMatters;
     public GameObject targetBoardSlot;
     public GameObject targetBoardSlot1;
-    public GameObject MainBoard; 
+    public GameObject MainBoard;
     private GameObject tempJokerTile;
     public List<string> newWords;
     private List<string> addedWords;
@@ -83,6 +83,7 @@ public class GameController : MonoBehaviourPun {
         {
             SelectList = Alphabet.data.TileGameObject;
             MainBoard.SetActive(false);
+            
         }
         else if(OnlyData.Data.gametype == GameType.pass)
         {
@@ -660,7 +661,8 @@ public class GameController : MonoBehaviourPun {
         Debug.Log("Syed -ConfirmDialog");
         SelectTileGameObject.Clear();
         PV.RPC("OwnerShipChange", RpcTarget.Others);
-
+        StartCoroutine(WaitPVFNMater());
+       
         //  ++++++++++++++++++++++++++++++++++++       MULTI    +++++++++++++++++++++++++++++++
 
         SoundController.data.playApply();
@@ -1005,10 +1007,45 @@ public class GameController : MonoBehaviourPun {
             }
         }
 
+        if (PV.IsMine)
+        {
+            foreach (PlayerData player in players)
+            {
+                for (int i = 0; i < player.UITiles.Count; i++)
+                {
 
+                    GameObject tile = player.UITiles[i];
+                    tile.SetActive(true);
+                }
+                //for (int i = 0; i < player.UITileSlots.Count; i++)
+                //{
+
+                //    GameObject tile = player.UITiles[i];
+                //    tile.SetActive(true);
+                //}
+            }
+        }
+        else if (PV.IsMine == false)
+        {
+            foreach (PlayerData player in players)
+            {
+                for (int i = 0; i < player.UITiles.Count; i++)
+                {
+
+                    GameObject tile = player.UITiles[i];
+                    tile.SetActive(false);
+                }
+                //for (int i = 0; i < player.UITileSlots.Count; i++)
+                //{
+
+                //    GameObject tile = player.UITiles[i];
+                //    tile.SetActive(false);
+                //}
+            }
+        }
         UITileSlots = players[currentPlayer - 1].UITileSlots;
         UITiles = players[currentPlayer - 1].UITiles;
-
+        
         currentPlayerTxt.text = "Player " + currentPlayer;
         PreApply();
         if (OnlyData.Data.gametype == GameType.Multi)
@@ -1122,14 +1159,16 @@ public class GameController : MonoBehaviourPun {
     [PunRPC]
     public void OwnerShipChange()
     {
+
         foreach (var item in SelectTileGameObject)
         {
             item.GetComponent<BoardSlot>().completed = true;
+            //item.transform.Find("boardTilePrefab(Clone)").gameObject.GetComponent<BoardTile>().completed = true;
         }
-        foreach (var item in SelectTileGameObject)
-        {
-           item.transform.Find("boardTilePrefab(Clone)").gameObject.GetComponent<BoardTile>().completed=true;
-        }
+        //foreach (var item in SelectTileGameObject)
+        //{
+           
+        //}
         SelectTileGameObject.Clear();
         Debug.Log("Upgrade to Owner");
         PV.TransferOwnership(PhotonNetwork.LocalPlayer);

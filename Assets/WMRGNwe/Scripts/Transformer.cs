@@ -45,7 +45,7 @@ public class Transformer : MonoBehaviour {
     public void MoveUIImpulse(Vector2 targetRectPos, float time, int count)
     {
         p_lerpTime = time;
-        p_currentLerpTime += (Time.deltaTime * 2) / p_lerpTime;
+        p_currentLerpTime += (Time.deltaTime * 1000) / p_lerpTime;
         fromRectPos = GetComponent<RectTransform>().anchoredPosition;
         toRectPos = targetRectPos;
         needMoveUI = true;
