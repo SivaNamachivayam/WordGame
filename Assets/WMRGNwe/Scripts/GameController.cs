@@ -1103,6 +1103,20 @@ public class GameController : MonoBehaviourPun {
             PV.RPC("OwnerShipChange", RpcTarget.Others);
         }
         StartCoroutine(WaitPVFNMater());
+        for (int i = 0; i <= playersCount - 1; i++)
+        {
+            //foreach (GameObject slot in players[i].UITileSlots)
+            //{
+            //    players[i].UITiles.Add(slot.GetComponent<UISlot>().UITile);
+            //}
+            foreach (GameObject tile in players[i].UITiles)
+            {
+                //tile.SetActive(true);
+                //Debug.Log("Syed -RandomLetter1111");
+                tile.GetComponent<UITile>().GetNewLetter();
+                tile.SetActive(false) ;
+            }
+        }
     }
 
     public void GiveUp()

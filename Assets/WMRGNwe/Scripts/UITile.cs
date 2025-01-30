@@ -134,7 +134,7 @@ public class UITile : MonoBehaviour
         Debug.Log("Syed-CreateNewBoardTile");
 
         boardTile = (GameObject)Instantiate(boardTilePrefab, new Vector3(99, 0, 0), Quaternion.identity);
-        boardTile.tag = "BoardTile";
+        //boardTile.tag = "BoardTile";
         GameController.data.BoardTiles.Add(boardTile);
         boardTile.GetComponent<BoardTile>().UIclone = gameObject;
         boardTile.GetComponent<BoardTile>().letter = letter;
