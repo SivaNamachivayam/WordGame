@@ -56,6 +56,13 @@ public class GameController : MonoBehaviourPun {
     private int skipCount;
     private float canvasWidth;
 
+
+    public Text PlayerTittle;
+    public Text EnemyTittle;
+
+    public Text PlayerScore;
+    public Text EnemyScore;
+
     [System.Serializable]
     public class PlayerData
     {
@@ -78,7 +85,7 @@ public class GameController : MonoBehaviourPun {
     void Start() {
         data = this;
         soundToggle.isOn = PlayerPrefs.GetInt("sound", 1) == 1 ? true : false;
-        //StartGame();
+        StartGame();
         if (OnlyData.Data.gametype==GameType.Multi)
         {
             SelectList = Alphabet.data.TileGameObject;
@@ -973,8 +980,24 @@ public class GameController : MonoBehaviourPun {
 
     void UpdateTxts()
     {
-        players[currentPlayer - 1].scoreTxt.text = players[currentPlayer - 1].score.ToString();
-        letterLeftTxt.text = Alphabet.data.LettersFeed.Count.ToString() + " LETTERS LEFT";
+        if(OnlyData.Data.gametype == GameType.pass)
+        {
+            players[currentPlayer - 1].scoreTxt.text = players[currentPlayer - 1].score.ToString();
+            letterLeftTxt.text = Alphabet.data.LettersFeed.Count.ToString() + " LETTERS LEFT";
+        }
+        else if (OnlyData.Data.gametype == GameType.Multi)
+        {
+            PlayerScore.text = players[currentPlayer - 1].score.ToString();
+            PV.RPC("ClientUpdateScore", RpcTarget.Others, PlayerScore.text);
+        }
+       
+    }
+
+
+    [PunRPC]
+    public void ClientUpdateScore(string Score)
+    {
+        EnemyScore.text = Score;
     }
 
     public void SwitchPlayer()
