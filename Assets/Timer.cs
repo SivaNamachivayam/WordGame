@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
 
 public class Timer : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class Timer : MonoBehaviour
     public float gameTimer;
     public float turnTimer;
 
-    public  bool isGameActive = false;
+    public bool isGameActive = false;
     public bool isPlayerTurn = true; // sPlayer starts first
 
     public TextMeshProUGUI gameTimerText;
@@ -98,7 +99,7 @@ public class Timer : MonoBehaviour
             isPlayerTurn = !isPlayerTurn; // Switch turn
             turnTimer = isPlayerTurn ? playerTurnTime : enemyTurnTime;
         }
-        
+
     }
 
     public void EndTurn()
@@ -114,7 +115,7 @@ public class Timer : MonoBehaviour
 
     void UpdateTurnTimerDisplay()
     {
-        if(OnlyData.Data.gametype == GameType.pass)
+        if (OnlyData.Data.gametype == GameType.pass)
         {
             turnTimerText.text = (isPlayerTurn ? "Player - 1" : "Player - 2") + " Time: " + Mathf.CeilToInt(turnTimer);
         }
@@ -134,9 +135,13 @@ public class Timer : MonoBehaviour
 
     void GameOver()
     {
+
         Debug.Log("Game Over!");
         gameTimerText.text = "Game Over!";
         turnTimerText.text = "";
+        GameController.data.GameOver();
         //submitButton.interactable = false;
     }
+
+    
 }

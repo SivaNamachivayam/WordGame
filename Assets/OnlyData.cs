@@ -1,8 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using TMPro;
+using UnityEngine.SceneManagement;
+using Photon.Pun;
+using System;
+using System.Reflection;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 
-public class OnlyData : MonoBehaviour
+public class OnlyData : MonoBehaviourPun
 {
 
     public GameType gametype;
@@ -30,7 +40,6 @@ public class OnlyData : MonoBehaviour
     {
         gametype = GameType.Multi;
     }
-
 
 }
 public enum GameType

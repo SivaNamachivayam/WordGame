@@ -7,8 +7,9 @@ using System.Security.Cryptography;
 using System.Linq;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class GameController : MonoBehaviourPun {
+public class GameController : MonoBehaviourPunCallbacks {
 
     public static GameController data;
     public GameObject mainMenu;
@@ -62,7 +63,8 @@ public class GameController : MonoBehaviourPun {
 
     public Text PlayerScore;
     public Text EnemyScore;
-
+    public Text PlayerWinText;
+    public bool PlayerExit;
     [System.Serializable]
     public class PlayerData
     {
@@ -1013,11 +1015,11 @@ public class GameController : MonoBehaviourPun {
 
     public void SwitchPlayer()
     {
-        if (CheckForGameOver())
-        {
-            GameOver();
-            return;
-        }
+        //if (CheckForGameOver())
+        //{
+        //    GameOver();
+        //    return;
+        //}
             
 
         currentPlayer = currentPlayer + 1 <= 4 ? currentPlayer + 1 : 1;
@@ -1295,37 +1297,100 @@ public class GameController : MonoBehaviourPun {
 
     public void GoToMainMenu()
     {
-        mainMenu.SetActive(true);
-        GameOverUI.SetActive(false);
+        //mainMenu.SetActive(true);
+        //GameOverUI.SetActive(false);
+        if (OnlyData.Data.gametype == GameType.pass)
+        {
+            SceneManager.LoadScene(0);
+        }
+        else if(OnlyData.Data.gametype == GameType.Multi)
+        {
+            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.LoadLevel(0);
+        }
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        PlayerExit = true;
+        GameOver();
+        
     }
 
     public void GameOver()
     {
+        PV.RPC("ClientGameOverClient", RpcTarget.Others);
         SoundController.data.playFinish();
-        if (playersCount == 1)
-        {
-            GameOverUI.SetActive(true);
-            gameOverText.text = "PLAYER " + currentPlayer + " WINS!";
-            return;
-        } else
-        {
-            int winnerPlayer = 0;
-            int maxScore = 0;
-            for (int i = 0; i <= 3; i++)
-            {
-                if(players[i].active && players[i].score > maxScore)
-                {
-                    maxScore = players[i].score;
-                    winnerPlayer = i + 1;
-                }
+        GameOverUI.SetActive(true);
+        //if (playersCount == 1)
+        //{
+        //    GameOverUI.SetActive(true);
+        //    gameOverText.text = "PLAYER " + currentPlayer + " WINS!";
+        //    return;
+        //} else
+        //{
+        //    int winnerPlayer = 0;
+        //    int maxScore = 0;
+        //    for (int i = 0; i <= 3; i++)
+        //    {
+        //        if(players[i].active && players[i].score > maxScore)
+        //        {
+        //            maxScore = players[i].score;
+        //            winnerPlayer = i + 1;
+        //        }
 
+        //    }
+        //    GameOverUI.SetActive(true);
+        //    gameOverText.text = "PLAYER " + winnerPlayer + " WINS!";
+        //}
+        int playerscoreint = int.Parse(PlayerScore.text);
+        int enemyscoreint = int.Parse(EnemyScore.text);
+        if (OnlyData.Data.gametype == GameType.pass)
+        {
+            
+            if (playerscoreint > enemyscoreint)
+            {
+                PlayerWinText.text="Win = Player -1";
             }
-            GameOverUI.SetActive(true);
-            gameOverText.text = "PLAYER " + winnerPlayer + " WINS!";
+            else if (enemyscoreint > playerscoreint)
+            {
+                PlayerWinText.text = "Win = Player -2";
+            }
+            else
+            {
+                PlayerWinText.text = "Draw";
+            }
+        }
+        else if(OnlyData.Data.gametype == GameType.Multi)
+        {
+            if (PlayerExit)
+            {
+                PlayerWinText.text = "You WIN";
+            }
+            else
+            {
+                if (playerscoreint > enemyscoreint)
+                {
+                    PlayerWinText.text = "You WIN";
+                }
+                else if (enemyscoreint > playerscoreint)
+                {
+                    PlayerWinText.text = "You Lose";
+                }
+                else
+                {
+                    PlayerWinText.text = "Draw";
+                }
+            }
+            
         }
 
     }
-
+    [PunRPC]
+    public void ClientGameOverClient()
+    {
+        GameOver();
+    }
     public bool CheckForGameOver()
     {
         foreach (PlayerData pd in players)

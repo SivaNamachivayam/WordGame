@@ -44,6 +44,8 @@ MonoBehaviour:
   - ResetTileClient
   - OwnerShipChange
   - ClientUpdateScore
+  - GameOverClient
+  - ClientGameOverClient
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
