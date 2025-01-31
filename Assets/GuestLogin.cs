@@ -36,12 +36,12 @@ public class GuestLogin : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this);
+            //DontDestroyOnLoad(this);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        //else
+        //{
+        //    Destroy(gameObject);
+        //}
         //GlobalManager.Instance.guestLogin = this;
         //DontDestroyOnLoad(gameObject);
         localDataPath = Application.persistentDataPath + "/" + GuestDataFileName;
