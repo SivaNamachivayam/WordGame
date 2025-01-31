@@ -48,10 +48,10 @@ public class GameController : MonoBehaviourPun {
     private List<string> addedWords;
     private List<int> newLetterIds;
     private string preApplyInfo;
-    private string confirmationID;
+    public string confirmationID;
     private int playersCount = 2;
     private int currentPlayer;
-    private int currentScore;
+    public int currentScore;
     private int errorCode;
     private int skipCount;
     private float canvasWidth;
@@ -81,11 +81,14 @@ public class GameController : MonoBehaviourPun {
         PlayerPrefs.DeleteAll();
         Debug.Log("here");
     }
-
-    void Start() {
+    public void Awake()
+    {
         data = this;
+    }
+    void Start() {
+        
         soundToggle.isOn = PlayerPrefs.GetInt("sound", 1) == 1 ? true : false;
-        StartGame();
+        
         if (OnlyData.Data.gametype==GameType.Multi)
         {
             SelectList = Alphabet.data.TileGameObject;
@@ -97,6 +100,7 @@ public class GameController : MonoBehaviourPun {
             SelectList = BoardSlots;
             MainBoard.SetActive(true);
         }
+        StartGame();
     }
     public List<GameObject> SelectList;
     public void StartGame()
@@ -329,11 +333,11 @@ public class GameController : MonoBehaviourPun {
             if(bs.GetComponent<BoardSlot>().completed != true)
                 bs.GetComponent<BoardSlot>().free = true;
         }
-        foreach (GameObject bs in Alphabet.data.TileGameObject)
-        {
-            if (bs.GetComponent<BoardSlot>().completed != true)
-                bs.GetComponent<BoardSlot>().free = true;
-        }
+        //foreach (GameObject bs in Alphabet.data.TileGameObject)
+        //{
+        //    if (bs.GetComponent<BoardSlot>().completed != true)
+        //        bs.GetComponent<BoardSlot>().free = true;
+        //}
         GameController.data.PreApply();
 
         // ++++++++++++++++++++++++++++++++++++++++        MULTI      ++++++++++++++++++++++++++++++++++++++++++++++
@@ -350,13 +354,20 @@ public class GameController : MonoBehaviourPun {
     [PunRPC]
     public void CancelTile()
     {
+        Debug.Log("Syed-Client-CancelLetters1111");
         foreach (var item in SelectTileGameObject)
         {
-            if (item.transform.Find("boardTilePrefab(Clone)"))
-            {
-                item.transform.GetComponent<BoardSlot>().free = true;
-                Destroy(item.transform.Find("boardTilePrefab(Clone)").gameObject);
-            }
+            Debug.Log("Syed-CancelLetters22222");
+            item.transform.GetComponent<BoardSlot>().completed = false;
+            item.transform.GetComponent<BoardSlot>().free = true;
+            //Destroy(item.GetComponentsInChildren<GameObject>().Find("boardTilePrefab(Clone)").gameObject);
+            //if (item.transform.Find("boardTilePrefab(Clone)").gameObject)
+            //{
+                Debug.Log("Syed-CancelLetters3333");
+                GameObject childTransform = item.transform.Find("boardTilePrefab(Clone)").gameObject;
+                Destroy(childTransform);
+            //}
+           
         }
         SelectTileGameObject.Clear();
     }
@@ -664,7 +675,7 @@ public class GameController : MonoBehaviourPun {
         Invoke("SwitchPlayer", 0.35f);
 
         //  ++++++++++++++++++++++++++++++++++++       MULTI    +++++++++++++++++++++++++++++++
-
+        //Timer.Data.EndTurn();
         Debug.Log("Syed -ConfirmDialog");
         SelectTileGameObject.Clear();
         PV.RPC("OwnerShipChange", RpcTarget.Others);
@@ -987,7 +998,7 @@ public class GameController : MonoBehaviourPun {
         }
         else if (OnlyData.Data.gametype == GameType.Multi)
         {
-            PlayerScore.text = players[currentPlayer - 1].score.ToString();
+            PlayerScore.text = currentScore.ToString();
             PV.RPC("ClientUpdateScore", RpcTarget.Others, PlayerScore.text);
         }
        
@@ -1117,6 +1128,7 @@ public class GameController : MonoBehaviourPun {
     }
     public void SkipTurn()
     {
+        //Timer.Data.EndTurn();
         CancelLetters();
         Invoke("SwitchPlayer", 0.35f);
         if (PV.IsMine)
@@ -1180,11 +1192,13 @@ public class GameController : MonoBehaviourPun {
         {
             case "ApplyTurn":
                 ApplyTurn();
+                Timer.Data.EndTurn();
                 break;
             case "SkipTurn":
                 CancelLetters();
                 skipCount++;
                 SkipTurn();
+                Timer.Data.EndTurn();
                 break;
             case "GiveUp":
                 Invoke("GiveUp", 0.35f);
@@ -1196,7 +1210,7 @@ public class GameController : MonoBehaviourPun {
     [PunRPC]
     public void OwnerShipChange()
     {
-
+        Timer.Data.EndTurn();
         foreach (var item in SelectTileGameObject)
         {
             item.GetComponent<BoardSlot>().completed = true;
@@ -1218,6 +1232,7 @@ public class GameController : MonoBehaviourPun {
     {
         yield return new WaitUntil(() => PV.IsMine);
         SwitchPlayer();
+        
     }
     public IEnumerator WaitPVFNMater()
     {

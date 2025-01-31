@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Timer : MonoBehaviour
 {
@@ -14,9 +15,16 @@ public class Timer : MonoBehaviour
     public  bool isGameActive = false;
     public bool isPlayerTurn = true; // sPlayer starts first
 
-    public Text gameTimerText;
-    public Text turnTimerText;
+    public TextMeshProUGUI gameTimerText;
+    public TextMeshProUGUI turnTimerText;
     //public Button submitButton; // Disable when time is up
+
+    public static Timer Data;
+
+    public void Awake()
+    {
+        Data = this;
+    }
 
     void Start()
     {
@@ -66,15 +74,37 @@ public class Timer : MonoBehaviour
         }
         else
         {
-            EndTurn(); // Switch turn when time runs out
+            AutoEndTurn(); // Switch turn when time runs out
         }
+    }
+
+    public void AutoEndTurn()
+    {
+        if (OnlyData.Data.gametype == GameType.pass)
+        {
+            GameController.data.confirmationID = "SkipTurn";
+            GameController.data.ConfirmDialog();
+            Debug.Log("AUTO CALL SKIP FN");
+            GameController.data.confirmationID = string.Empty;
+            isPlayerTurn = !isPlayerTurn; // Switch turn
+            turnTimer = isPlayerTurn ? playerTurnTime : enemyTurnTime;
+        }
+        else if (GameController.data.PV.IsMine)
+        {
+            GameController.data.confirmationID = "SkipTurn";
+            GameController.data.ConfirmDialog();
+            Debug.Log("AUTO CALL SKIP FN");
+            GameController.data.confirmationID = string.Empty;
+            isPlayerTurn = !isPlayerTurn; // Switch turn
+            turnTimer = isPlayerTurn ? playerTurnTime : enemyTurnTime;
+        }
+        
     }
 
     public void EndTurn()
     {
         isPlayerTurn = !isPlayerTurn; // Switch turn
         turnTimer = isPlayerTurn ? playerTurnTime : enemyTurnTime;
-        //submitButton.interactable = isPlayerTurn; // Only enable button for the player
     }
 
     void UpdateGameTimerDisplay()
@@ -84,7 +114,22 @@ public class Timer : MonoBehaviour
 
     void UpdateTurnTimerDisplay()
     {
-        turnTimerText.text = (isPlayerTurn ? "Player" : "Enemy") + " Time: " + Mathf.CeilToInt(turnTimer);
+        if(OnlyData.Data.gametype == GameType.pass)
+        {
+            turnTimerText.text = (isPlayerTurn ? "Player - 1" : "Player - 2") + " Time: " + Mathf.CeilToInt(turnTimer);
+        }
+        else if (OnlyData.Data.gametype == GameType.Multi)
+        {
+            if (GameController.data.PV.IsMine)
+            {
+                turnTimerText.text = "Player" + " Time: " + Mathf.CeilToInt(turnTimer);
+            }
+            else if (!GameController.data.PV.IsMine)
+            {
+                turnTimerText.text = "Enemy" + " Time: " + Mathf.CeilToInt(turnTimer);
+            }
+
+        }
     }
 
     void GameOver()

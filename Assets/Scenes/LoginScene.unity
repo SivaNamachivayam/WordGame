@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571337, b: 0.3069219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -960,6 +960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FB_userName: {fileID: 120213248}
+  Google_userDp: {fileID: 0}
   defaultAvatar: {fileID: 311379752}
   FB_userDp: {fileID: 311379753}
   panel: {fileID: 120213254}
@@ -1220,7 +1221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   letterTileSkins:
-  - skinImage: {fileID: 21300000, guid: 250df7cd44c40754a82e656413fe8e44, type: 3}
+  - skinImage: {fileID: 21300000, guid: 1fcb4fca11b990e4787c00fd5d210d09, type: 3}
   - skinImage: {fileID: 21300000, guid: 44c3454831eaee740813daa4bd26069e, type: 3}
   - skinImage: {fileID: 21300000, guid: a4c157683f2ca1a40903b00c72fa2168, type: 3}
   - skinImage: {fileID: 21300000, guid: 739486d7ebda9c14b9d5f3c759a7d5e2, type: 3}
