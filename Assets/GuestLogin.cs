@@ -33,7 +33,7 @@ public class GuestLogin : MonoBehaviour
 
     private void Awake()
     {
-        /*if (instance == null)
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(this);
@@ -41,7 +41,7 @@ public class GuestLogin : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }*/
+        }
         //GlobalManager.Instance.guestLogin = this;
         //DontDestroyOnLoad(gameObject);
         localDataPath = Application.persistentDataPath + "/" + GuestDataFileName;
@@ -50,7 +50,7 @@ public class GuestLogin : MonoBehaviour
 
     private void Start()
     {
-        GlobalManager.Instance.InitializeGuestLogin();
+        //GlobalManager.Instance.InitializeGuestLogin();
 
         guestlogin = PlayerPrefs.GetInt("guestloginbool", 0) == 1;
         Debug.Log("Elan Guestlogin manager Start ==>" + guestlogin);

@@ -19,7 +19,7 @@ public class GlobalManager
     {
         InitializeFacebookLogin();
         InitializeGoogleLogin();
-        InitializeGuestLogin();
+        //InitializeGuestLogin();
     }
 
     public static GlobalManager Instance => instance;
@@ -65,24 +65,24 @@ public class GlobalManager
             }
         }
     }
-    public void InitializeGuestLogin()
-    {
-        if (guestLogin == null)
-        {
-            GameObject guestLoginObject = GameObject.Find("GuestLoginManager");
+    //public void InitializeGuestLogin()
+    //{
+    //    if (guestLogin == null)
+    //    {
+    //        GameObject guestLoginObject = GameObject.Find("GuestLoginManager");
 
-            if (guestLoginObject == null)
-            {
-                guestLoginObject = new GameObject("GuestLoginManager");
-                guestLogin = guestLoginObject.AddComponent<GuestLogin>();
-                Object.DontDestroyOnLoad(guestLogin);
-                Debug.Log("FaceBookLogin instance created and added to DontDestroyOnLoad.");
-            }
-            else
-            {
-                guestLogin = guestLoginObject.GetComponent<GuestLogin>();
-                Debug.Log("FaceBookLogin instance found in the scene.");
-            }
-        }
-    }
+    //        //if (guestLoginObject == null)
+    //        //{
+    //        //    guestLoginObject = new GameObject("GuestLoginManager");
+    //        //    //guestLogin = guestLoginObject.AddComponent<GuestLogin>();
+    //        //    //Object.DontDestroyOnLoad(guestLogin);
+    //        //    Debug.Log("FaceBookLogin instance created and added to DontDestroyOnLoad.");
+    //        //}
+    //        //else
+    //        //{
+    //        //    guestLogin = guestLoginObject.GetComponent<GuestLogin>();
+    //        //    Debug.Log("FaceBookLogin instance found in the scene.");
+    //        //}
+    //    }
+    //}
 }
