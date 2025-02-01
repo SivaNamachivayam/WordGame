@@ -46,6 +46,7 @@ public class BoardTile : MonoBehaviourPun {
     {
         DragSelectTile = 0;
         DragSelectTile = Alphabet.data.TileGameObject.IndexOf(this.transform.parent.gameObject);
+        //Debug.Log("NAMECHECK"+ this.transform.parent.gameObject.name);
         Debug.Log("MasterResetTileInt" + DragSelectTile);
         if (completed)
             return;
@@ -58,6 +59,6 @@ public class BoardTile : MonoBehaviourPun {
         gameObject.SetActive(false);
         
 
-        GameController.data.ResetTileMaster(DragSelectTile);
+        GameController.data.ResetTileMaster(DragSelectTile, this.transform.parent.gameObject.name);
     }
 }

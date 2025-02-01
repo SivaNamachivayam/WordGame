@@ -272,7 +272,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: aec67e8f0ced95348ac7f88011df282d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1fcb4fca11b990e4787c00fd5d210d09, type: 3}
   m_Color: {r: 0.986207, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -345,6 +345,7 @@ MonoBehaviour:
   currentslot: {fileID: 0}
   letter: 
   score: 0
+  DragSelectTile: 0
 --- !u!114 &11406270
 MonoBehaviour:
   m_ObjectHideFlags: 0

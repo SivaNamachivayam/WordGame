@@ -376,12 +376,13 @@ public class GameController : MonoBehaviourPunCallbacks {
 
 
 
-    public void ResetTileMaster(int Value)
+    public void ResetTileMaster(int Value,string Name)
     {
+        SelectTileGameObject.RemoveAll(obj => obj.name == Name);
         if (PV.IsMine)
         {
             Debug.Log("TileValue" + Value);
-            PV.RPC("ResetTileClient", RpcTarget.Others, Value);
+            PV.RPC("ResetTileClient", RpcTarget.Others, Value,Name);
         }
     }
 
@@ -389,8 +390,9 @@ public class GameController : MonoBehaviourPunCallbacks {
     public int TileValue;
 
     [PunRPC]
-    public void ResetTileClient(int TileValue)
+    public void ResetTileClient(int TileValue ,string Name)
     {
+        SelectTileGameObject.RemoveAll(obj => obj.name == Name);
         Debug.Log("Syed-Check -ResetTileClient");
         Debug.Log("TileValue" + TileValue);
 
