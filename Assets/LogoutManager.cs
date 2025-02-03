@@ -9,6 +9,7 @@ public class LogoutManager : MonoBehaviour
     public Button logoutBtn;
     public Button playBtn;
     public GameObject panel;
+    public GameObject settingPanel;
     public GameObject Guestpanel;
     public GameObject MainmenuPanel;
 
@@ -37,24 +38,29 @@ public class LogoutManager : MonoBehaviour
         if (GlobalManager.Instance.googleLoginManager.googleLoginbool == true)
         {
             GlobalManager.Instance.googleLoginManager.OnSignOut();
+            panel.gameObject.SetActive(true);
+            settingPanel.SetActive(false);
         }
         else if (GlobalManager.Instance.faceBookLogin.FBLoginbool == true)
         {
             GlobalManager.Instance.faceBookLogin.LogOut();
             panel.gameObject.SetActive(true);
+            settingPanel.SetActive(false);
         }
         else if (GlobalManager.Instance.guestLogin.guestlogin == true)
         {
             GlobalManager.Instance.guestLogin.OnLogoutButtonClick();
+            panel.gameObject.SetActive(true);
+            settingPanel.SetActive(false);
         }
     }
 
-    public void OnClickPlayBtn()
+   /* public void OnClickPlayBtn()
     {
         panel.SetActive(false);
         Guestpanel.SetActive(false);
         //SceneManager.LoadScene("game");
         MainmenuPanel.SetActive(true);
-    }
+    }*/
 }
 

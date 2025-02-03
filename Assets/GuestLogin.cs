@@ -9,7 +9,7 @@ public class GuestLogin : MonoBehaviour
 {
     private const string GuestDataFileName = "guestData.json"; // JSON file name to store guest data
     public GameObject LoginPanel;
-    public GameObject OpenLoginPanel;
+    public GameObject settingPanel;
     public bool guestlogin = false;
     public static GuestLogin instance;
     public GameObject hide;
@@ -60,7 +60,7 @@ public class GuestLogin : MonoBehaviour
             LoadGuestData();
             LoginPanel.SetActive(true);
             guestNameImage.gameObject.SetActive(true);
-            hide.gameObject.SetActive(false);
+            //hide.gameObject.SetActive(false);
             guestlogin = true;
         }
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -89,9 +89,9 @@ public class GuestLogin : MonoBehaviour
             Debug.Log("Guest already logged in with ID: " + guestData.guestId);
         }
 
-        LoginPanel.SetActive(true);
+        LoginPanel.SetActive(false);
         guestNameImage.gameObject.SetActive(true);
-        hide.gameObject.SetActive(false);
+        hide.gameObject.SetActive(true);
         guestlogin = true;
 
         PlayerPrefs.SetInt("guestloginbool", guestlogin ? 1 : 0);
@@ -114,10 +114,9 @@ public class GuestLogin : MonoBehaviour
         Debug.Log("Guest data cleared");
 
 
-        if (LoginPanel != null) LoginPanel.gameObject.SetActive(false);
-        if (hide != null) hide.gameObject.SetActive(true);
+        if (LoginPanel != null) LoginPanel.gameObject.SetActive(true);
+        if (hide != null) hide.gameObject.SetActive(false);
         if (guestNameImage != null) guestNameImage.gameObject.SetActive(false);
-
         // Clear guest data by deleting the JSON file
         if (File.Exists(localDataPath))
         {

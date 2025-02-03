@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571337, b: 0.3069219, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -289,6 +289,7 @@ MonoBehaviour:
   logoutBtn: {fileID: 120213250}
   playBtn: {fileID: 2065691561}
   panel: {fileID: 120213253}
+  settingPanel: {fileID: 1291605496}
   Guestpanel: {fileID: 120213254}
   MainmenuPanel: {fileID: 1648377978}
 --- !u!4 &13500432
@@ -418,8 +419,28 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3342276185945351685, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4030787185485675617, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322976155018769873, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 4322976155018769873, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4322976155018769873, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 4322976155018769873, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4851401676888205309, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
@@ -504,7 +525,7 @@ PrefabInstance:
       objectReference: {fileID: 853433368}
     - target: {fileID: 6264561440004588970, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6264561440004588970, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -605,17 +626,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &120213248 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1177251500368407118, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
-  m_PrefabInstance: {fileID: 120213244}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &120213250 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3029189474989609, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
@@ -630,11 +640,6 @@ MonoBehaviour:
 --- !u!1 &120213251 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1732655817787430746, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
-  m_PrefabInstance: {fileID: 120213244}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &120213252 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 29352402636852924, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
   m_PrefabInstance: {fileID: 120213244}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &120213253 stripped
@@ -744,10 +749,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e17f0521bf8d4c92a65aefb40478ce5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoginPanel: {fileID: 120213254}
-  OpenLoginPanel: {fileID: 120213253}
+  LoginPanel: {fileID: 120213253}
+  settingPanel: {fileID: 1291605496}
   guestlogin: 0
-  hide: {fileID: 120213252}
+  hide: {fileID: 120213254}
   guestNameImage: {fileID: 120213251}
   statusText: {fileID: 120213245}
 --- !u!4 &435611211
@@ -959,15 +964,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 113e08b2dfc274f4ca02c8f6ef5b5bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FB_userName: {fileID: 120213248}
+  FB_userName: {fileID: 0}
   Google_userDp: {fileID: 0}
   defaultAvatar: {fileID: 311379752}
   FB_userDp: {fileID: 311379753}
   panel: {fileID: 120213254}
-  openpanel: {fileID: 120213252}
+  openpanel: {fileID: 120213253}
   FBLoginbool: 0
   GuestBtn: {fileID: 120213251}
-  logintext: {fileID: 120213252}
 --- !u!224 &1049884776 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7974633607218773995, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
@@ -1041,6 +1045,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1291605496 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 915469696236921289, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
+  m_PrefabInstance: {fileID: 120213244}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1378244718
 GameObject:
   m_ObjectHideFlags: 0
@@ -1076,12 +1085,12 @@ MonoBehaviour:
   Name: 
   googleLoginbool: 0
   defaultAvatar: {fileID: 311379752}
-  gname: {fileID: 120213248}
+  gname: {fileID: 1565802479}
   id: {fileID: 120213245}
   Google_userDp: {fileID: 311379753}
   panel: {fileID: 120213254}
   GuestBtn: {fileID: 120213251}
-  openpanel: {fileID: 120213252}
+  openpanel: {fileID: 120213253}
 --- !u!4 &1378244720
 Transform:
   m_ObjectHideFlags: 0
@@ -1399,6 +1408,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1565802479 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5253940847682439027, guid: 24e925f381fab41c392e148cc90f4666, type: 3}
+  m_PrefabInstance: {fileID: 120213244}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1648377978
 GameObject:
   m_ObjectHideFlags: 0

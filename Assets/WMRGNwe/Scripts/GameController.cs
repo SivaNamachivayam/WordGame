@@ -1086,7 +1086,7 @@ public class GameController : MonoBehaviourPunCallbacks {
         
         currentPlayerTxt.text = "Player " + currentPlayer;
         PreApply();
-        if (OnlyData.Data.gametype == GameType.Multi)
+        /*if (OnlyData.Data.gametype == GameType.Multi)
         {
             if (PV.IsMine)
             {
@@ -1104,7 +1104,7 @@ public class GameController : MonoBehaviourPunCallbacks {
             //Showing Title
             newPlayerTitle.GetComponentInChildren<Text>().text = "PLAYER'S " + currentPlayer + " MOVE";
             newPlayerTitle.GetComponent<Transformer>().MoveUIImpulse(Vector2.zero, 2, 1);
-        }
+        }*/
 
         UpdateTxts();
     }

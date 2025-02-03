@@ -20,7 +20,6 @@ public class FaceBookLogin : MonoBehaviour
     public bool FBLoginbool = false;
     public static FaceBookLogin instance;
     public GameObject GuestBtn;
-    public GameObject logintext;
 
     private const string FBUserNameKey = "FBUserName";
     private const string FBUserIdKey = "FBUserId";
@@ -86,7 +85,6 @@ public class FaceBookLogin : MonoBehaviour
 
     public void Login()
     {
-        logintext.gameObject.SetActive(true);
         if (!FB.IsLoggedIn)
         {
             FB.LogInWithReadPermissions(new List<string> { "public_profile", "email" }, LoginCallback);
@@ -123,7 +121,7 @@ public class FaceBookLogin : MonoBehaviour
     }
     private void ResetUserData()
     {
-        FB_userName.text = "New User";
+        FB_userName.text = "";
         FB_userDp.sprite = null;
     }
 
@@ -251,7 +249,7 @@ public class FaceBookLogin : MonoBehaviour
         {
             yield return new WaitForSeconds(0.5f); // Optional delay for smooth transitions
             panel.SetActive(true);
-            openpanel.SetActive(true);
+            openpanel.SetActive(false);
             //Google_userDp.enabled = false;
             defaultAvatar.enabled = false;
         }
@@ -259,7 +257,7 @@ public class FaceBookLogin : MonoBehaviour
         {
             yield return new WaitForSeconds(0.5f); // Optional delay for smooth transitions
             panel.SetActive(false);
-            openpanel.SetActive(false);
+            openpanel.SetActive(true);
             //Google_userDp.enabled = false;
             defaultAvatar.enabled = false;
         }
