@@ -17,7 +17,7 @@ public class GoogleLoginManager : MonoBehaviour
     public bool googleLoginbool = false;
     public Image defaultAvatar;
     private GoogleSignInConfiguration configuration;
-    private string webClientId = "759548581028-qghsfpuraaqqji7gpo6g4gl8r2hpuog6.apps.googleusercontent.com";
+    private string webClientId = "325723266312-nph84nkd3sff6b19ttjo9non0qsup7bd.apps.googleusercontent.com";
 
     public static GoogleLoginManager instance;
     public TextMeshProUGUI gname;
