@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
+using UnityEngine.XR;
 
 public class LogoutManager : MonoBehaviour
 {
@@ -12,8 +14,21 @@ public class LogoutManager : MonoBehaviour
     public GameObject settingPanel;
     public GameObject Guestpanel;
     public GameObject MainmenuPanel;
+    public GameObject LoadingPanel;
 
+    public void OnEnable()
+    {
+        if (OnlyData.Data)
+        {
+            if (OnlyData.Data.AfterPlayedGame)
+            {
+                LoadingPanel.SetActive(false);
+                PhotonNetwork.ConnectUsingSettings();
+                PhotonNetwork.GameVersion = "1.0";
+            }
+        }
 
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -56,13 +71,31 @@ public class LogoutManager : MonoBehaviour
             settingPanel.SetActive(false);
         }
     }
-
-   /* public void OnClickPlayBtn()
+    public void PPMode()
     {
-        panel.SetActive(false);
-        Guestpanel.SetActive(false);
-        //SceneManager.LoadScene("game");
-        MainmenuPanel.SetActive(true);
-    }*/
-}
+        OnlyData.Data.gametype = GameType.pass;
+    }
 
+    public void MultiMode()
+    {
+        OnlyData.Data.gametype = GameType.Multi;
+    }
+
+    public void PlayerBoolFn()
+    {
+        OnlyData.Data.AfterPlayedGame = true;
+    }
+    /* public void OnClickPlayBtn()
+     {
+         panel.SetActive(false);
+         Guestpanel.SetActive(false);
+         //SceneManager.LoadScene("game");
+         MainmenuPanel.SetActive(true);
+     }*/
+}
+public enum GameType
+{
+    Multi,
+    pass,
+    None
+}

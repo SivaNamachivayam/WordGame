@@ -19,6 +19,8 @@ public class OnlyData : MonoBehaviourPun
 
     public static OnlyData Data { get; private set; }
 
+    public bool AfterPlayedGame;
+
     void Awake()
     {
         if (Data == null)
@@ -30,26 +32,14 @@ public class OnlyData : MonoBehaviourPun
         {
             Destroy(gameObject);
         }
+        //Data = this;
+
     }
 
     public void OnEnable()
     {
         PhotonNetwork.ConnectUsingSettings();
     }
-    public void PPMode()
-    {
-        gametype = GameType.pass;
-    }
-
-    public void MultiMode()
-    {
-        gametype = GameType.Multi;
-    }
-
+   
 }
-public enum GameType
-{
-    Multi,
-    pass,
-    None
-}
+

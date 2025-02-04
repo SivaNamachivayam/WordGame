@@ -1301,12 +1301,15 @@ public class GameController : MonoBehaviourPunCallbacks {
     {
         //mainMenu.SetActive(true);
         //GameOverUI.SetActive(false);
+        
         if (OnlyData.Data.gametype == GameType.pass)
         {
+            OnlyData.Data.gametype = GameType.None;
             SceneManager.LoadScene(0);
         }
         else if(OnlyData.Data.gametype == GameType.Multi)
         {
+            OnlyData.Data.gametype = GameType.None;
             PhotonNetwork.LeaveRoom();
             PhotonNetwork.LoadLevel(0);
         }
