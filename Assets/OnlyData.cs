@@ -31,6 +31,11 @@ public class OnlyData : MonoBehaviourPun
             Destroy(gameObject);
         }
     }
+
+    public void OnEnable()
+    {
+        PhotonNetwork.ConnectUsingSettings();
+    }
     public void PPMode()
     {
         gametype = GameType.pass;

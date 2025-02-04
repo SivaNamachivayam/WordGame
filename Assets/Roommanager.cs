@@ -6,12 +6,21 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Facebook.Unity.Example;
+
 public class Roommanager : MonoBehaviourPunCallbacks
 {
+
     private int requiredPlayers = 0; // Number of players required to proceed.
 
     public Button ConnectBtn;
+    public Button CloseBtn;
+    public Button BotBtn;
     public TextMeshProUGUI SearchingText;
+    public TextMeshProUGUI MultiText;
+
+
+    public GameObject Loadingpanel;
 
     public void Start()
     {
@@ -25,9 +34,12 @@ public class Roommanager : MonoBehaviourPunCallbacks
     // Called when connected to the Photon server
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Connected to Photon Master Server");
+
         PhotonNetwork.JoinLobby();
+        Debug.Log("Connected to Photon Master Server");
         //LoadingScreen.SetActive(false);
+        ConnectBtn.interactable = true;
+        Loadingpanel.SetActive(false);
         ConnectBtn.gameObject.SetActive(true);
 
     }
@@ -51,8 +63,10 @@ public class Roommanager : MonoBehaviourPunCallbacks
     public void JoinRoom()
     {
         PhotonNetwork.JoinRandomRoom();
+        BotBtn.interactable = false;
         ConnectBtn.interactable = false;
-        SearchingText.text="Searching";
+        MultiText.gameObject.SetActive(false);
+        SearchingText.gameObject.SetActive(true);
         Debug.Log("__ROOM JOIN");
 
     }
@@ -61,7 +75,7 @@ public class Roommanager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log("__ROOM CREATE__");
-
+        CloseBtn.gameObject.SetActive(true);
     }
 
     // Called when a player joins the room
@@ -74,6 +88,7 @@ public class Roommanager : MonoBehaviourPunCallbacks
         {
             LoadGameScene();
         }
+
     }
 
     // Called when the local player successfully joins a room
@@ -93,7 +108,7 @@ public class Roommanager : MonoBehaviourPunCallbacks
     {
         Debug.Log("__JOIN ROOM FAIL");
         CreateRoom();
-        ConnectBtn.interactable = false;
+        //ConnectBtn.interactable = true;
     }
 
     // Load the game scene
@@ -102,10 +117,25 @@ public class Roommanager : MonoBehaviourPunCallbacks
         Debug.Log("All players have joined. Loading the game scene...");
         Debug.Log("AllPlayerEnter");
         PhotonNetwork.LoadLevel(1);
+        //MainMenu.Data.GameStart();
         //SceneManager.LoadScene(0, LoadSceneMode.Additive);
     }
-    public void LoadSceneByIndex(int Sceneint)
+
+    public void MultiLeaveRoom()
     {
-        SceneManager.LoadScene(Sceneint); // Replace '1' with the build index of the scene you want to load.
+        Loadingpanel.SetActive(true);
+        PhotonNetwork.LeaveRoom();
+        BotBtn.interactable = true;
+        MultiText.gameObject.SetActive(true);
+        SearchingText.gameObject.SetActive(false);
+        CloseBtn.gameObject.SetActive(false);
+        ConnectBtn.interactable = false;
+        PhotonNetwork.ConnectUsingSettings();
     }
+
+    public void LoadScene(int sceneIndex)
+    {
+        SceneManager.LoadScene(sceneIndex);
+    }
+
 }
