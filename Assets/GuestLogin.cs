@@ -61,7 +61,6 @@ public class GuestLogin : MonoBehaviour
             LoginPanel.SetActive(true);
             guestNameImage.gameObject.SetActive(true);
             //hide.gameObject.SetActive(false);
-            guestlogin = true;
         }
         SceneManager.sceneLoaded += OnSceneLoaded;
     }

@@ -119,7 +119,7 @@ public class GoogleLoginManager : MonoBehaviour
         PlayerPrefs.DeleteKey(GoogleUserDpKey);
         PlayerPrefs.DeleteKey("googleLoginbool");
         PlayerPrefs.Save();
-
+        Google_userDp.gameObject.SetActive(false);
         GoogleSignIn.DefaultInstance.SignOut();
         googleLoginbool = false;
         ResetUserData();
@@ -137,7 +137,7 @@ public class GoogleLoginManager : MonoBehaviour
         Debug.Log("Google login manager ShowPanels====>" + profilePicUrl);
         yield return new WaitForEndOfFrame();  // Wait until the frame is fully rendered
         if (panel != null) panel.SetActive(true);
-        if (openpanel != null) openpanel.SetActive(true);
+        if (openpanel != null) openpanel.SetActive(false);
         if (GuestBtn != null) GuestBtn.SetActive(false);
         defaultAvatar.enabled = true;
         defaultAvatar.gameObject.SetActive(true);
@@ -156,7 +156,7 @@ public class GoogleLoginManager : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();  // Wait until the frame is fully rendered
         if (panel != null) panel.SetActive(false);
-        if (openpanel != null) openpanel.SetActive(false);
+        if (openpanel != null) openpanel.SetActive(true);
         if (GuestBtn != null) GuestBtn.SetActive(true);
     }
 
@@ -197,6 +197,7 @@ public class GoogleLoginManager : MonoBehaviour
 
         if (www.result == UnityWebRequest.Result.Success)
         {
+            Google_userDp.gameObject.SetActive(true);
             Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
             _profilePic = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0));
             Google_userDp.sprite = _profilePic;

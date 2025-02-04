@@ -47,9 +47,11 @@ public class LogoutManager : MonoBehaviour
             panel.gameObject.SetActive(true);
             settingPanel.SetActive(false);
         }
-        else if (GlobalManager.Instance.guestLogin.guestlogin == true)
+        else if (GuestLogin.instance.guestlogin == true)
         {
-            GlobalManager.Instance.guestLogin.OnLogoutButtonClick();
+            GuestLogin.instance.OnLogoutButtonClick();
+            //GlobalManager.Instance.guestLogin.OnLogoutButtonClick();
+            //GlobalManager.Instance.guestLogin.guestlogin == true
             panel.gameObject.SetActive(true);
             settingPanel.SetActive(false);
         }

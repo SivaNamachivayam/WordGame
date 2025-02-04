@@ -113,6 +113,7 @@ public class FaceBookLogin : MonoBehaviour
         PlayerPrefs.DeleteKey(FBUserDpKey);
         PlayerPrefs.DeleteKey("FBLoginbool");
         PlayerPrefs.Save();
+        FB_userDp.gameObject.SetActive(false);
 
         FBLoginbool = false;
         ResetUserData();
@@ -211,6 +212,7 @@ public class FaceBookLogin : MonoBehaviour
 
         if (www.result == UnityWebRequest.Result.Success)
         {
+            FB_userDp.gameObject.SetActive(true);
             Texture2D texture = DownloadHandlerTexture.GetContent(www);
             FB_userDp.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
         }
@@ -259,7 +261,7 @@ public class FaceBookLogin : MonoBehaviour
             panel.SetActive(false);
             openpanel.SetActive(true);
             //Google_userDp.enabled = false;
-            defaultAvatar.enabled = false;
+            defaultAvatar.enabled = true;
         }
     }
 }
