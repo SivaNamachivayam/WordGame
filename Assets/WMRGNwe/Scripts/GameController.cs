@@ -12,7 +12,7 @@ using Photon.Realtime;
 public class GameController : MonoBehaviourPunCallbacks {
 
     public static GameController data;
-    public GameObject mainMenu;
+    public List<Button> UIBtnList;    public GameObject mainMenu;
     public GameObject GameUI;
     public GameObject GameOverUI;
     public GameObject UILettersPanel_p1, UILettersPanel_p2, UILettersPanel_p3, UILettersPanel_p4, ButtonsPanel;
@@ -95,7 +95,7 @@ public class GameController : MonoBehaviourPunCallbacks {
         {
             SelectList = Alphabet.data.TileGameObject;
             MainBoard.SetActive(false);
-            
+            if (!PV.IsMine)            {                foreach (var item in UIBtnList)                {                    item.transform.GetComponent<Button>().interactable = false;                }            }            else if (PV.IsMine)            {                foreach (var item in UIBtnList)                {                    item.transform.GetComponent<Button>().interactable = true;                }            }
         }
         else if(OnlyData.Data.gametype == GameType.pass)
         {
@@ -1139,7 +1139,7 @@ public class GameController : MonoBehaviourPunCallbacks {
         {
             Debug.Log("Syed -ConfirmDialog");
             SelectTileGameObject.Clear();
-            PV.RPC("OwnerShipChange", RpcTarget.Others);
+            PV.RPC("OwnerShipChangeSkip", RpcTarget.Others);
         }
         StartCoroutine(WaitPVFNMater());
         for (int i = 0; i <= playersCount - 1; i++)
@@ -1200,6 +1200,10 @@ public class GameController : MonoBehaviourPunCallbacks {
                 break;
             case "SkipTurn":
                 CancelLetters();
+                for (int i = transform.childCount - 1; i >= 0; i--)
+                {
+                    Destroy(transform.GetChild(i).gameObject);
+                }
                 skipCount++;
                 SkipTurn();
                 Timer.Data.EndTurn();
@@ -1231,17 +1235,42 @@ public class GameController : MonoBehaviourPunCallbacks {
         SelectList = Alphabet.data.TileGameObject;
         StartCoroutine(WaitPVFNClient());
     }
+    [PunRPC]
+    public void OwnerShipChangeSkip()
+    {
+        Timer.Data.EndTurn();
+        foreach (var item in SelectTileGameObject)
+        {
+            //item.GetComponent<BoardSlot>().completed = true;
+            Destroy(item.transform.Find("boardTilePrefab(Clone)").gameObject);
+        }
+        //foreach (var item in SelectTileGameObject)
+        //{
 
+        //}
+        SelectTileGameObject.Clear();
+        PV.TransferOwnership(PhotonNetwork.LocalPlayer);
+        boardController.Data.PV.TransferOwnership(PhotonNetwork.LocalPlayer);
+        SelectList = Alphabet.data.TileGameObject;
+        StartCoroutine(WaitPVFNClient());
+    }
     public IEnumerator WaitPVFNClient()
     {
         yield return new WaitUntil(() => PV.IsMine);
         SwitchPlayer();
-        
+        foreach (var item in UIBtnList)
+        {
+            item.transform.GetComponent<Button>().interactable = true;
+        }
     }
     public IEnumerator WaitPVFNMater()
     {
         yield return new WaitUntil(() => PV.IsMine == false);
         SwitchPlayer();
+        foreach (var item in UIBtnList)
+        {
+            item.transform.GetComponent<Button>().interactable = false;
+        }
     }
     public void switchMenu(bool state)
     {

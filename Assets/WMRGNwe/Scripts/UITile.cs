@@ -196,6 +196,8 @@ public class UITile : MonoBehaviour
             GoToFreeSlot();
 
         boardTile.SetActive(false);
+        boardTile.transform.position = new Vector3(99f, 0f, 0f);
+        boardTile.transform.parent = GameController.data.transform;
     }
 
     void MoveToPos(Vector3 toPos)
