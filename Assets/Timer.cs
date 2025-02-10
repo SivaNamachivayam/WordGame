@@ -117,17 +117,19 @@ public class Timer : MonoBehaviour
     {
         if (OnlyData.Data.gametype == GameType.pass)
         {
-            turnTimerText.text = (isPlayerTurn ? "Player - 1" : "Player - 2") + " Time: " + Mathf.CeilToInt(turnTimer);
+            turnTimerText.text = GameController.data.currentPlayerTxt.text + " Time: " + Mathf.CeilToInt(turnTimer);
         }
         else if (OnlyData.Data.gametype == GameType.Multi)
         {
             if (GameController.data.PV.IsMine)
             {
                 turnTimerText.text = "Player" + " Time: " + Mathf.CeilToInt(turnTimer);
+                GameController.data.currentPlayerTxt.text = "Player";
             }
             else if (!GameController.data.PV.IsMine)
             {
                 turnTimerText.text = "Enemy" + " Time: " + Mathf.CeilToInt(turnTimer);
+                GameController.data.currentPlayerTxt.text = "Enemy";
             }
 
         }

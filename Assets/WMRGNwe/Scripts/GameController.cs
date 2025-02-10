@@ -679,7 +679,7 @@ public class GameController : MonoBehaviourPunCallbacks {
         Invoke("SwitchPlayer", 0.35f);
 
         //  ++++++++++++++++++++++++++++++++++++       MULTI    +++++++++++++++++++++++++++++++
-        //Timer.Data.EndTurn();
+        Timer.Data.EndTurn();
         Debug.Log("Syed -ConfirmDialog");
         SelectTileGameObject.Clear();
         PV.RPC("OwnerShipChange", RpcTarget.Others);
@@ -1196,7 +1196,6 @@ public class GameController : MonoBehaviourPunCallbacks {
         {
             case "ApplyTurn":
                 ApplyTurn();
-                Timer.Data.EndTurn();
                 break;
             case "SkipTurn":
                 CancelLetters();
