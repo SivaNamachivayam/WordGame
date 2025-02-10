@@ -39,8 +39,9 @@ public class UITile : MonoBehaviour
         }
         else
         {
-            finished = true;
-            gameObject.SetActive(false);
+            //finished = true;
+            //gameObject.SetActive(false);
+           
         }
     }
 
