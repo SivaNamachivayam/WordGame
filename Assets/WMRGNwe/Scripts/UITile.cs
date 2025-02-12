@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using static Alphabet;
 //using Photon.Pun;
 
 public class UITile : MonoBehaviour
@@ -30,6 +31,11 @@ public class UITile : MonoBehaviour
     }
 
     public void GetNewLetter() {
+        Debug.Log("LettersFeed.Count" + Alphabet.data.LettersFeed.Count);
+        foreach (Letters letterItem in Alphabet.data.LettersList)
+        {
+            Alphabet.data.LettersFeed.Add(letterItem.letter);
+        }
         if (Alphabet.data.LettersFeed.Count > 0)
         {
             letterString.text = Alphabet.data.GetRandomLetter();

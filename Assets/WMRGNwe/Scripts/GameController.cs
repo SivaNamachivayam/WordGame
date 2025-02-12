@@ -61,6 +61,7 @@ public class GameController : MonoBehaviourPunCallbacks {
     public Text PlayerTittle;
     public Text EnemyTittle;
 
+    public int MultiPlayerScore;
     public Text PlayerScore;
     public Text EnemyScore;
     public Text PlayerWinText;
@@ -673,6 +674,7 @@ public class GameController : MonoBehaviourPunCallbacks {
             players[currentPlayer - 1].complete = true;
 
         players[currentPlayer-1].score += currentScore;
+        MultiPlayerScore += currentScore;
         skipCount = 0;
         UpdateTxts();
 
@@ -689,7 +691,6 @@ public class GameController : MonoBehaviourPunCallbacks {
 
         SoundController.data.playApply();
     }
-
     public void ShowApplyConfirmDialog()
     {
         if (errorCode == 0 && preApplyInfo.Length > 0)
@@ -971,6 +972,7 @@ public class GameController : MonoBehaviourPunCallbacks {
 
         foreach (string letter in oldLetters)
         {
+            Debug.Log("SYED_RA-2222");
             Alphabet.data.LettersFeed.Add(letter);
         }
 
@@ -1002,7 +1004,7 @@ public class GameController : MonoBehaviourPunCallbacks {
         }
         else if (OnlyData.Data.gametype == GameType.Multi)
         {
-            PlayerScore.text = currentScore.ToString();
+            PlayerScore.text = MultiPlayerScore.ToString();
             PV.RPC("ClientUpdateScore", RpcTarget.Others, PlayerScore.text);
         }
        
@@ -1142,7 +1144,7 @@ public class GameController : MonoBehaviourPunCallbacks {
             PV.RPC("OwnerShipChangeSkip", RpcTarget.Others);
         }
         StartCoroutine(WaitPVFNMater());
-        for (int i = 0; i <= playersCount - 1; i++)
+        for (int i = 0; i <= playersCount-1; i++)
         {
             //foreach (GameObject slot in players[i].UITileSlots)
             //{
@@ -1163,7 +1165,10 @@ public class GameController : MonoBehaviourPunCallbacks {
         Debug.Log("Player "+currentPlayer +" gived up!");
 
         foreach (GameObject uiTile in UITiles)
+        {
+            Debug.Log("SYED_RA-3333");
             Alphabet.data.LettersFeed.Add(uiTile.GetComponent<UITile>().letterString.text);
+        }
 
         SkipTurn();
         playersCount -= 1;

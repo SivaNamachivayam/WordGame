@@ -14,6 +14,8 @@ public class Alphabet : MonoBehaviour
         public int qty;
         public int score;
     }
+
+
     public List<Letters> LettersList;
     public List<string> LettersFeed;
 
@@ -28,10 +30,12 @@ public class Alphabet : MonoBehaviour
     void FillLettersFeed() {
         foreach(Letters letterItem in LettersList)
         {
-            for (int i = 1; i <= letterItem.qty; i++)
-            {
-                LettersFeed.Add(letterItem.letter);
-            }
+            LettersFeed.Add(letterItem.letter);
+            //for (int i = 1; i <= letterItem.qty; i++)
+            //{
+            //    Debug.Log("SYED_RA-1111");
+            //    LettersFeed.Add(letterItem.letter);
+            //}
         }
         //int index = TileGameObject.IndexOf();
     }
@@ -55,7 +59,7 @@ public class Alphabet : MonoBehaviour
 
     public void ResetFeed()
     {
-        LettersFeed.Clear();
+        //LettersFeed.Clear();
         FillLettersFeed();
     }
 }
