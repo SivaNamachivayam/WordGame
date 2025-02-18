@@ -293,7 +293,6 @@ MonoBehaviour:
   Guestpanel: {fileID: 120213251}
   MainmenuPanel: {fileID: 1648377978}
   LoadingPanel: {fileID: 367721060}
-  AfterPlayedGame: 0
 --- !u!4 &13500432
 Transform:
   m_ObjectHideFlags: 0
@@ -1692,29 +1691,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   letterTileSkins:
-  - skinImage: {fileID: 21300000, guid: 1fcb4fca11b990e4787c00fd5d210d09, type: 3}
-  - skinImage: {fileID: 21300000, guid: 44c3454831eaee740813daa4bd26069e, type: 3}
-  - skinImage: {fileID: 21300000, guid: a4c157683f2ca1a40903b00c72fa2168, type: 3}
-  - skinImage: {fileID: 21300000, guid: 739486d7ebda9c14b9d5f3c759a7d5e2, type: 3}
-  - skinImage: {fileID: 21300000, guid: 0cd8ac0f42c11b04db1b380e7250dbde, type: 3}
-  - skinImage: {fileID: 21300000, guid: cfddcd40db36ebf44aea9940bb877d81, type: 3}
-  - skinImage: {fileID: 21300000, guid: 2af41f2a07b1c8c4caf5424282f3d188, type: 3}
-  - skinImage: {fileID: 21300000, guid: cbdcc0f34501cd240a65e9ecdd187652, type: 3}
-  - skinImage: {fileID: 21300000, guid: 2483bba9903c4a6478dc6323f040fbf7, type: 3}
-  - skinImage: {fileID: 21300000, guid: 990beb3033ef20149a94a89022fca948, type: 3}
+  - skinImage: {fileID: 21300000, guid: 990e6b8ee8e77430fb22c81cea8facea, type: 3}
+  - skinImage: {fileID: 21300000, guid: 0e8b4c3434f304710a23a2c4a3f1ed1e, type: 3}
+  - skinImage: {fileID: 21300000, guid: 2324134ad85d241838a8492b1a2dd02a, type: 3}
+  - skinImage: {fileID: 21300000, guid: 992f4d56ab6c74c46bb95ff44667a6c5, type: 3}
+  - skinImage: {fileID: 21300000, guid: 6881ab6faf2aa4611b57435d93a7785e, type: 3}
+  - skinImage: {fileID: 21300000, guid: 35d02fccc0b784284acf24baa0ff4a2a, type: 3}
+  - skinImage: {fileID: 21300000, guid: 013d0b4fe264d4d67b3ea278fe91e385, type: 3}
+  - skinImage: {fileID: 21300000, guid: 220539feff42c45789578980397402b6, type: 3}
+  - skinImage: {fileID: 21300000, guid: 8e0ce23a1942544a4a086a117e25a17c, type: 3}
+  - skinImage: {fileID: 21300000, guid: 5cfd1e644199d4f01ab90e2b7707d9f4, type: 3}
   - skinImage: {fileID: 21300000, guid: 4c4b0385b8248c44b9220dc96def7890, type: 3}
-  - skinImage: {fileID: 21300000, guid: be13efb5a2677d94a9eeae1f37b77a88, type: 3}
-  - skinImage: {fileID: 21300000, guid: d28782cc117d37640a05fd76a4accee5, type: 3}
-  - skinImage: {fileID: 21300000, guid: 574013abb78960e4190815540eb87c1c, type: 3}
-  - skinImage: {fileID: 21300000, guid: d52a3874ffde0b149a5dd9038ff79673, type: 3}
-  - skinImage: {fileID: 21300000, guid: b1969a6bfcc36cf47b0f9e9da196c3ae, type: 3}
-  - skinImage: {fileID: 21300000, guid: 992cd0ecf2251924ba85918e005bd824, type: 3}
-  - skinImage: {fileID: 21300000, guid: 5b1384a8cb88bc44f99839b3d941f8aa, type: 3}
-  - skinImage: {fileID: 21300000, guid: 2d5fb3a2188240a43ba7243aadbe2e18, type: 3}
-  - skinImage: {fileID: 21300000, guid: a9879b23d7aabdc4f81194ebc906757f, type: 3}
-  - skinImage: {fileID: 21300000, guid: 853da043092ef354b8f5cd9ab4e2f0c5, type: 3}
-  - skinImage: {fileID: 21300000, guid: f854ac0c832962e4dbe44dcdfed975ba, type: 3}
-  - skinImage: {fileID: 21300000, guid: ccb3498a0742bab4e838f3264b9ec9fa, type: 3}
+  - skinImage: {fileID: 21300000, guid: 039cd41fcec814672b24b942af8d8f11, type: 3}
+  - skinImage: {fileID: 21300000, guid: 101987a4a7b1242a992334f8dab25a64, type: 3}
+  - skinImage: {fileID: 21300000, guid: 6a160aa9318524b608cf151868d070d5, type: 3}
+  - skinImage: {fileID: 21300000, guid: d679ecd6950c94d4597e7014a6c9f7b7, type: 3}
+  - skinImage: {fileID: 21300000, guid: f9ed642ffe17e47f1a83f76a587891ae, type: 3}
+  - skinImage: {fileID: 21300000, guid: 5ac022da4987e4bea8ccfbbabcd425f8, type: 3}
+  - skinImage: {fileID: 21300000, guid: be04f66e7cbda497d8192bd77e5c6ee6, type: 3}
+  - skinImage: {fileID: 21300000, guid: 15bbe1d533cda4597bfac49ccfe47dbc, type: 3}
   skinItemPrefab: {fileID: 484972316313024808, guid: da591c151edb89440aafb9764f807a9a, type: 3}
   skinItemParent: {fileID: 1049884776}
   letterTilePreview: {fileID: 148502, guid: 5fc9ac402df2c44afa454cac4a8f2afe, type: 3}

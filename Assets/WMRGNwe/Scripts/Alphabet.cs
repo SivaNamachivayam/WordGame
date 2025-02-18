@@ -43,7 +43,7 @@ public class Alphabet : MonoBehaviour
     public string GetRandomLetter() {
         int rand = UnityEngine.Random.Range(0,LettersFeed.Count);
         string result = LettersFeed[rand]; 
-        LettersFeed.RemoveAt(rand);
+        //LettersFeed.RemoveAt(rand);
         return result;
     }
 
